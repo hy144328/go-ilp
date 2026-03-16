@@ -15,5 +15,5 @@ func Abs[T constraints.Integer](x T) T {
 func Remainder[T constraints.Integer](x T, y T) T {
 	y = Abs(y)
 
-	return (x % y + y) % y
+	return (x%y + y) % y
 }

@@ -5,12 +5,12 @@ import (
 )
 
 func TestAbs(t *testing.T) {
-	tests := map[string]struct{
-		got int
+	tests := map[string]struct {
+		got  int
 		want int
 	}{
 		"positive": {1, 1},
-		"zero": {0, 0},
+		"zero":     {0, 0},
 		"negative": {-1, 1},
 	}
 
@@ -24,10 +24,10 @@ func TestAbs(t *testing.T) {
 	}
 }
 func TestRemainder(t *testing.T) {
-	tests := map[string]struct{
+	tests := map[string]struct {
 		dividend int
-		divisor int
-		want int
+		divisor  int
+		want     int
 	}{
 		"positive, positive": {5, 3, 2},
 		"positive, negative": {5, -3, 2},
