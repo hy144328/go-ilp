@@ -4,6 +4,8 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+// GreatestCommonDivisor calculates the greatest common divisor of the given numbers.
+// It returns 0 if all numbers are 0.
 func GreatestCommonDivisor[T constraints.Integer](a T, as ...T) T {
 	a = Abs(a)
 
@@ -22,6 +24,8 @@ func GreatestCommonDivisor[T constraints.Integer](a T, as ...T) T {
 	return a
 }
 
+// LeastCommonMultiple calculates the least common multiple of the given numbers.
+// It returns 0 if any number is 0.
 func LeastCommonMultiple[T constraints.Integer](a T, as ...T) T {
 	a = Abs(a)
 
