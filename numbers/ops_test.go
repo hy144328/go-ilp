@@ -5,7 +5,7 @@ import (
 )
 
 func TestAbs(t *testing.T) {
-	var tests = map[string]struct{
+	tests := map[string]struct{
 		got int
 		want int
 	}{
@@ -24,7 +24,7 @@ func TestAbs(t *testing.T) {
 	}
 }
 func TestRemainder(t *testing.T) {
-	var tests = map[string]struct{
+	tests := map[string]struct{
 		dividend int
 		divisor int
 		want int
