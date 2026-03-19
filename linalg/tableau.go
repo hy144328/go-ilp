@@ -15,6 +15,27 @@ var (
 
 type Tableau[T constraints.Integer] [][]T
 
+// NewTableau creates a Tableau with given numbers of rows and columns.
+func NewTableau[T constraints.Integer](noRows int, noColumns int) Tableau[T] {
+	res := make([][]T, noRows)
+
+	for rowCt := range noRows {
+		res[rowCt] = make([]T, noColumns)
+	}
+
+	return res
+}
+
+// NoRows returns the number of rows of the Tableau.
+func (tab Tableau[T]) NoRows() int {
+	return len(tab)
+}
+
+// NoColumns returns the number of columns of the Tableau.
+func (tab Tableau[T]) NoColumns() int {
+	return len(tab[0])
+}
+
 // ScaleRow multiplies a row by a constant factor.
 func (tab Tableau[T]) ScaleRow(idx int, fac T) {
 	row := tab[idx]
