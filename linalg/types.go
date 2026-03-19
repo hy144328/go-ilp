@@ -47,6 +47,28 @@ func (vec Vector[T]) Size() int {
 	return len(vec)
 }
 
+// AsMatrix casts a Vector to a single-column Matrix.
+func (vec Vector[T]) AsMatrix() Matrix[T] {
+	res := make([][]T, vec.Size())
+
+	for vecCt, vecIt := range vec {
+		res[vecCt][0] = vecIt
+	}
+
+	return res
+}
+
+// ToMatrix copies a Vector to a single-column Matrix.
+func (vec Vector[T]) ToMatrix() Matrix[T] {
+	res := NewMatrix[T](vec.Size(), 1)
+
+	for vecCt := range vec {
+		res[vecCt] = vec[vecCt:vecCt+1]
+	}
+
+	return res
+}
+
 // Dot calculates the dot product of one Vector with another Vector.
 func (vec Vector[T]) Dot(other Vector[T]) (T, error) {
 	if vec.Size() != other.Size() {
@@ -77,8 +99,40 @@ func (mat Matrix[T]) NoColumns() int {
 	return len(mat[0])
 }
 
-// Mul multiplies a Matrix with a Vector.
-func (mat Matrix[T]) Mul(vec Vector[T]) (Vector[T], error) {
+// ToVector copies a column of a Matrix to a Vector.
+func (mat Matrix[T]) ToVector(idx int) Vector[T] {
+	res := NewVector[T](mat.NoRows())
+
+	for rowCt, rowIt := range mat {
+		res[rowCt] = rowIt[idx]
+	}
+
+	return res
+}
+
+// Mul multiplies a Matrix with another Matrix.
+func (mat Matrix[T]) Mul(other Matrix[T]) (Matrix[T], error) {
+	if mat.NoColumns() != other.NoRows() {
+		return nil, fmt.Errorf("%w: %d, %d.", ErrIncompatibleSizes, mat.NoColumns(), other.NoRows())
+	}
+
+	res := NewMatrix[T](mat.NoRows(), other.NoColumns())
+
+	for rowCt, rowIt := range mat {
+		for colCt := range other.NoColumns() {
+			resIt, err := other.ToVector(colCt).Dot(rowIt)
+			if err != nil {
+				panic(err)
+			}
+			res[rowCt][colCt] = resIt
+		}
+	}
+
+	return res, nil
+}
+
+// MulVec multiplies a Matrix with a Vector.
+func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 	if mat.NoColumns() != vec.Size() {
 		return nil, fmt.Errorf("%w: %d, %d.", ErrIncompatibleSizes, mat.NoColumns(), vec.Size())
 	}
@@ -86,7 +140,7 @@ func (mat Matrix[T]) Mul(vec Vector[T]) (Vector[T], error) {
 	res := NewVector[T](mat.NoRows())
 
 	for rowCt, rowIt := range mat {
-		resIt, err := Vector[T](rowIt).Dot(vec)
+		resIt, err := vec.Dot(rowIt)
 		if err != nil {
 			panic(err)
 		}
