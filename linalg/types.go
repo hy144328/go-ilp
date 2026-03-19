@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/hy144328/go-ilp/numbers"
 	"golang.org/x/exp/constraints"
 )
 
@@ -14,17 +15,25 @@ var (
 // A Vector is a one-dimensional tensor.
 type Vector[T constraints.Integer] []T
 
+// A VectorRational is a one-dimensional tensor over the rational numbers.
+type VectorRational[T constraints.Integer] []numbers.Rational[T]
+
 // A Matrix is a two-dimensional tensor.
 type Matrix[T constraints.Integer] [][]T
 
 // NewVector creates a Vector of given length.
 func NewVector[T constraints.Integer](size int) Vector[T] {
-	return make(Vector[T], size)
+	return make([]T, size)
+}
+
+// NewVector creates a Vector of given length.
+func NewVectorRational[T constraints.Integer](size int) VectorRational[T] {
+	return make([]numbers.Rational[T], size)
 }
 
 // NewMatrix creates a Matrix with given numbers of rows and columns.
 func NewMatrix[T constraints.Integer](noRows int, noColumns int) Matrix[T] {
-	res := make(Matrix[T], noRows)
+	res := make([][]T, noRows)
 
 	for rowCt := range noRows {
 		res[rowCt] = make([]T, noColumns)
@@ -53,12 +62,17 @@ func (vec Vector[T]) Dot(other Vector[T]) (T, error) {
 	return res, nil
 }
 
-// NoRows returns the number of rows of the Vector.
+// Size returns the length of the VectorRational.
+func (vec VectorRational[T]) Size() int {
+	return len(vec)
+}
+
+// NoRows returns the number of rows of the Matrix.
 func (mat Matrix[T]) NoRows() int {
 	return len(mat)
 }
 
-// NoColumns returns the number of columns of the Vector.
+// NoColumns returns the number of columns of the Matrix.
 func (mat Matrix[T]) NoColumns() int {
 	return len(mat[0])
 }
