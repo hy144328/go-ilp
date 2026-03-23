@@ -24,6 +24,25 @@ func TestAdd(t *testing.T) {
 	}
 }
 
+func TestAddT(t *testing.T) {
+	tests := map[string]struct {
+		first  fraction[int]
+		second int
+		want   fraction[int]
+	}{
+		"two numbers": {fraction[int]{1, 2}, 1, fraction[int]{3, 2}},
+	}
+
+	for k, v := range tests {
+		t.Run(k, func(t *testing.T) {
+			res := v.first.AddT(v.second)
+			if !res.Equals(v.want) {
+				t.Errorf("%v + %v = %v != %v", v.first, v.second, res, v.want)
+			}
+		})
+	}
+}
+
 func TestMul(t *testing.T) {
 	tests := map[string]struct {
 		first  fraction[int]

@@ -77,6 +77,19 @@ func (x fraction[T]) Add(y Rational[T]) Rational[T] {
 	return res
 }
 
+// AddT adds an integer to a fraction.
+func (x fraction[T]) AddT(y T) Rational[T] {
+	res, err := NewFraction(
+		x.num+x.denom*y,
+		x.denom,
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return res
+}
+
 // Mul multiplies one fraction by another fraction.
 func (x fraction[T]) Mul(y Rational[T]) Rational[T] {
 	res, err := NewFraction(x.num*y.Numerator(), x.denom*y.Denominator())
@@ -104,10 +117,22 @@ func (x fraction[T]) Equals(y Rational[T]) bool {
 	return lhs == rhs
 }
 
+// EqualsT reports whether a fraction is equal to an integer.
+func (x fraction[T]) EqualsT(y T) bool {
+	return x.denom == 1 && x.num == y
+}
+
 // LessThan reports whether one fraction is less than another fraction.
 func (x fraction[T]) LessThan(y Rational[T]) bool {
 	lhs := x.num * y.Denominator()
 	rhs := x.denom * y.Numerator()
+	return lhs < rhs
+}
+
+// LessThanT reports whether a fraction is less than an integer.
+func (x fraction[T]) LessThanT(y T) bool {
+	lhs := x.num
+	rhs := x.denom * y
 	return lhs < rhs
 }
 
@@ -118,6 +143,13 @@ func (x fraction[T]) GreaterThan(y Rational[T]) bool {
 	return lhs > rhs
 }
 
+// GreaterThanT reports whether a fraction is greater than an integer.
+func (x fraction[T]) GreaterThanT(y T) bool {
+	lhs := x.num
+	rhs := x.denom * y
+	return lhs > rhs
+}
+
 // LessEqual reports whether one fraction is less than or equal to another fraction.
 func (x fraction[T]) LessEqual(y Rational[T]) bool {
 	lhs := x.num * y.Denominator()
@@ -125,10 +157,24 @@ func (x fraction[T]) LessEqual(y Rational[T]) bool {
 	return lhs <= rhs
 }
 
+// LessEqualT reports whether a fraction is less than or equal to an integer.
+func (x fraction[T]) LessEqualT(y T) bool {
+	lhs := x.num
+	rhs := x.denom * y
+	return lhs <= rhs
+}
+
 // GreaterEqual reports whether one fraction is greater than or equal to another fraction.
 func (x fraction[T]) GreaterEqual(y Rational[T]) bool {
 	lhs := x.num * y.Denominator()
 	rhs := x.denom * y.Numerator()
+	return lhs >= rhs
+}
+
+// GreaterEqualT reports whether a fraction is greater than or equal to an integer.
+func (x fraction[T]) GreaterEqualT(y T) bool {
+	lhs := x.num
+	rhs := x.denom * y
 	return lhs >= rhs
 }
 
