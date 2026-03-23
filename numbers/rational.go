@@ -1,35 +1,52 @@
 package numbers
 
 import (
+	"errors"
+
 	"golang.org/x/exp/constraints"
 )
+
+var (
+	ErrNotInteger = errors.New("not an integer")
+)
+
+type Embedding[T constraints.Integer] interface {
+	IsInteger() bool
+	ToInteger() (T, error)
+}
+
+type Ring[T constraints.Integer, U any] interface {
+	Add(U) U
+	AddT(T) U
+	Mul(Rational[T]) Rational[T]
+	MulT(T) Rational[T]
+}
+
+type Ordered[T constraints.Integer, U any] interface {
+	Equals(U) bool
+	EqualsT(T) bool
+	LessThan(U) bool
+	LessThanT(T) bool
+	GreaterThan(U) bool
+	GreaterThanT(T) bool
+	LessEqual(U) bool
+	LessEqualT(T) bool
+	GreaterEqual(U) bool
+	GreaterEqualT(T) bool
+}
+
+type Archimedean[T constraints.Integer, U any] interface {
+	Floor() T
+	Ceil() T
+}
 
 // A Rational represents a rational number.
 type Rational[T constraints.Integer] interface {
 	Numerator() T
 	Denominator() T
 
-	// Binary operations.
-	Add(Rational[T]) Rational[T]
-	AddT(T) Rational[T]
-	Mul(Rational[T]) Rational[T]
-	MulT(T) Rational[T]
-
-	// Comparison operations.
-	Equals(Rational[T]) bool
-	EqualsT(T) bool
-	LessThan(Rational[T]) bool
-	LessThanT(T) bool
-	GreaterThan(Rational[T]) bool
-	GreaterThanT(T) bool
-	LessEqual(Rational[T]) bool
-	LessEqualT(T) bool
-	GreaterEqual(Rational[T]) bool
-	GreaterEqualT(T) bool
-
-	// Integer conversions.
-	Floor() T
-	Ceil() T
-	IsInteger() bool
-	ToInteger() (T, error)
+	Embedding[T]
+	Ring[T, Rational[T]]
+	Ordered[T, Rational[T]]
+	Archimedean[T, Rational[T]]
 }

@@ -8,7 +8,6 @@ import (
 )
 
 var (
-	ErrNotInteger  = errors.New("not an integer")
 	ErrZeroDivisor = errors.New("zero divisor")
 )
 
@@ -119,7 +118,9 @@ func (x fraction[T]) Equals(y Rational[T]) bool {
 
 // EqualsT reports whether a fraction is equal to an integer.
 func (x fraction[T]) EqualsT(y T) bool {
-	return x.denom == 1 && x.num == y
+	lhs := x.num
+	rhs := x.denom * y
+	return lhs == rhs
 }
 
 // LessThan reports whether one fraction is less than another fraction.
