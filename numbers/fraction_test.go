@@ -6,10 +6,10 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	tests := map[string]struct{
-		first fraction[int]
+	tests := map[string]struct {
+		first  fraction[int]
 		second fraction[int]
-		want fraction[int]
+		want   fraction[int]
 	}{
 		"two numbers": {fraction[int]{1, 2}, fraction[int]{1, 3}, fraction[int]{5, 6}},
 	}
@@ -25,10 +25,10 @@ func TestAdd(t *testing.T) {
 }
 
 func TestMul(t *testing.T) {
-	tests := map[string]struct{
-		first fraction[int]
+	tests := map[string]struct {
+		first  fraction[int]
 		second fraction[int]
-		want fraction[int]
+		want   fraction[int]
 	}{
 		"two numbers": {fraction[int]{1, 2}, fraction[int]{1, 3}, fraction[int]{1, 6}},
 	}
@@ -44,9 +44,9 @@ func TestMul(t *testing.T) {
 }
 
 func TestMulT(t *testing.T) {
-	tests := map[string]struct{
-		got fraction[int]
-		fac int
+	tests := map[string]struct {
+		got  fraction[int]
+		fac  int
 		want fraction[int]
 	}{
 		"two numbers": {fraction[int]{5, 6}, 15, fraction[int]{25, 2}},
@@ -63,13 +63,13 @@ func TestMulT(t *testing.T) {
 }
 
 func TestEquals(t *testing.T) {
-	tests := map[string]struct{
-		lhs fraction[int]
-		rhs fraction[int]
+	tests := map[string]struct {
+		lhs  fraction[int]
+		rhs  fraction[int]
 		want bool
 	}{
-		"equal": {fraction[int]{1, 3}, fraction[int]{1, 3}, true},
-		"unequal": {fraction[int]{1, 3}, fraction[int]{3, 1}, false},
+		"equal":      {fraction[int]{1, 3}, fraction[int]{1, 3}, true},
+		"unequal":    {fraction[int]{1, 3}, fraction[int]{3, 1}, false},
 		"equivalent": {fraction[int]{1, 3}, fraction[int]{2, 6}, true},
 	}
 
@@ -87,13 +87,13 @@ func TestEquals(t *testing.T) {
 }
 
 func TestLessThan(t *testing.T) {
-	tests := map[string]struct{
-		lhs fraction[int]
-		rhs fraction[int]
+	tests := map[string]struct {
+		lhs  fraction[int]
+		rhs  fraction[int]
 		want bool
 	}{
-		"less": {fraction[int]{1, 4}, fraction[int]{1, 3}, true},
-		"equal": {fraction[int]{1, 3}, fraction[int]{1, 3}, false},
+		"less":    {fraction[int]{1, 4}, fraction[int]{1, 3}, true},
+		"equal":   {fraction[int]{1, 3}, fraction[int]{1, 3}, false},
 		"greater": {fraction[int]{1, 2}, fraction[int]{1, 3}, false},
 	}
 
@@ -111,13 +111,13 @@ func TestLessThan(t *testing.T) {
 }
 
 func TestGreaterThan(t *testing.T) {
-	tests := map[string]struct{
-		lhs fraction[int]
-		rhs fraction[int]
+	tests := map[string]struct {
+		lhs  fraction[int]
+		rhs  fraction[int]
 		want bool
 	}{
-		"less": {fraction[int]{1, 4}, fraction[int]{1, 3}, false},
-		"equal": {fraction[int]{1, 3}, fraction[int]{1, 3}, false},
+		"less":    {fraction[int]{1, 4}, fraction[int]{1, 3}, false},
+		"equal":   {fraction[int]{1, 3}, fraction[int]{1, 3}, false},
 		"greater": {fraction[int]{1, 2}, fraction[int]{1, 3}, true},
 	}
 
@@ -135,13 +135,13 @@ func TestGreaterThan(t *testing.T) {
 }
 
 func TestLessEqual(t *testing.T) {
-	tests := map[string]struct{
-		lhs fraction[int]
-		rhs fraction[int]
+	tests := map[string]struct {
+		lhs  fraction[int]
+		rhs  fraction[int]
 		want bool
 	}{
-		"less": {fraction[int]{1, 4}, fraction[int]{1, 3}, true},
-		"equal": {fraction[int]{1, 3}, fraction[int]{1, 3}, true},
+		"less":    {fraction[int]{1, 4}, fraction[int]{1, 3}, true},
+		"equal":   {fraction[int]{1, 3}, fraction[int]{1, 3}, true},
 		"greater": {fraction[int]{1, 2}, fraction[int]{1, 3}, false},
 	}
 
@@ -159,13 +159,13 @@ func TestLessEqual(t *testing.T) {
 }
 
 func TestGreaterEqual(t *testing.T) {
-	tests := map[string]struct{
-		lhs fraction[int]
-		rhs fraction[int]
+	tests := map[string]struct {
+		lhs  fraction[int]
+		rhs  fraction[int]
 		want bool
 	}{
-		"less": {fraction[int]{1, 4}, fraction[int]{1, 3}, false},
-		"equal": {fraction[int]{1, 3}, fraction[int]{1, 3}, true},
+		"less":    {fraction[int]{1, 4}, fraction[int]{1, 3}, false},
+		"equal":   {fraction[int]{1, 3}, fraction[int]{1, 3}, true},
 		"greater": {fraction[int]{1, 2}, fraction[int]{1, 3}, true},
 	}
 
@@ -183,13 +183,13 @@ func TestGreaterEqual(t *testing.T) {
 }
 
 func TestFloor(t *testing.T) {
-	tests := map[string]struct{
-		got fraction[int]
+	tests := map[string]struct {
+		got  fraction[int]
 		want int
 	}{
 		"positive fraction": {fraction[int]{5, 3}, 1},
 		"negative fraction": {fraction[int]{-5, 3}, -2},
-		"integer": {fraction[int]{6, 3}, 2},
+		"integer":           {fraction[int]{6, 3}, 2},
 	}
 
 	for k, v := range tests {
@@ -202,13 +202,13 @@ func TestFloor(t *testing.T) {
 }
 
 func TestCeil(t *testing.T) {
-	tests := map[string]struct{
-		got fraction[int]
+	tests := map[string]struct {
+		got  fraction[int]
 		want int
 	}{
 		"positive fraction": {fraction[int]{5, 3}, 2},
 		"negative fraction": {fraction[int]{-5, 3}, -1},
-		"integer": {fraction[int]{6, 3}, 2},
+		"integer":           {fraction[int]{6, 3}, 2},
 	}
 
 	for k, v := range tests {
@@ -221,13 +221,13 @@ func TestCeil(t *testing.T) {
 }
 
 func TestToInteger(t *testing.T) {
-	tests := map[string]struct{
-		got fraction[int]
+	tests := map[string]struct {
+		got  fraction[int]
 		want int
-		err error
+		err  error
 	}{
-		"equal": {fraction[int]{2, 1}, 2, nil},
-		"unequal": {fraction[int]{2, 3}, 0, ErrNotInteger},
+		"equal":      {fraction[int]{2, 1}, 2, nil},
+		"unequal":    {fraction[int]{2, 3}, 0, ErrNotInteger},
 		"equivalent": {fraction[int]{6, 3}, 2, nil},
 	}
 

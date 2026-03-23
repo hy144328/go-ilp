@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	ErrNotInteger = errors.New("not an integer")
+	ErrNotInteger  = errors.New("not an integer")
 	ErrZeroDivisor = errors.New("zero divisor")
 )
 
@@ -41,7 +41,7 @@ func NewFraction[T constraints.Integer](
 }
 
 // FromInteger constructs a fraction from a numerator, and sets the denominator to one.
-func FromInteger[T constraints.Integer](num T) fraction[T] {
+func IntegerFraction[T constraints.Integer](num T) fraction[T] {
 	res, err := NewFraction(num, 1)
 	if err != nil {
 		panic(err)
@@ -51,7 +51,7 @@ func FromInteger[T constraints.Integer](num T) fraction[T] {
 
 // ZeroFraction constructs a zero fraction.
 func ZeroFraction[T constraints.Integer]() fraction[T] {
-	return FromInteger[T](0)
+	return IntegerFraction[T](0)
 }
 
 // Numerator returns the numerator of a fraction.
@@ -140,13 +140,13 @@ func (x fraction[T]) Floor() T {
 
 // Floor return the lowest integer greater than or equal to the fraction.
 func (x fraction[T]) Ceil() T {
-	mod := Remainder(x.num - 1, x.denom) + 1
-	return (x.num - mod) / x.denom + 1
+	mod := Remainder(x.num-1, x.denom) + 1
+	return (x.num-mod)/x.denom + 1
 }
 
 // IsInteger reports whether the fraction is an integer.
 func (x fraction[T]) IsInteger() bool {
-	return x.num % x.denom == 0
+	return x.num%x.denom == 0
 }
 
 // ToInteger returns the value of the fraction as an integer.
