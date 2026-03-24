@@ -75,6 +75,21 @@ func (vec Vector[T]) Dot(other Vector[T]) (T, error) {
 	return res, nil
 }
 
+// Equals reports whether a Vector is equal to another Vector.
+func (vec Vector[T]) Equals(other Vector[T]) bool {
+	if vec.Size() != other.Size() {
+		return false
+	}
+
+	for i := range vec {
+		if vec[i] != other[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
 // NoRows returns the number of rows of the Matrix.
 func (mat Matrix[T]) NoRows() int {
 	return len(mat)
@@ -134,4 +149,25 @@ func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 	}
 
 	return res, nil
+}
+
+// Equals reports whether one Matrix is equal to another Matrix.
+func (mat Matrix[T]) Equals(other Matrix[T]) bool {
+	if mat.NoRows() != other.NoRows() {
+		return false
+	}
+
+	if mat.NoColumns() != other.NoColumns() {
+		return false
+	}
+
+	for i := range mat.NoRows() {
+		for j := range mat.NoColumns() {
+			if mat[i][j] != other[i][j] {
+				return false
+			}
+		}
+	}
+
+	return true
 }

@@ -80,7 +80,7 @@ func TestMul(t *testing.T) {
 				}
 			} else if err != nil {
 				t.Errorf("%v", err)
-			} else if !equalMatrices(res, v.want) {
+			} else if !res.Equals(v.want) {
 				t.Errorf("%v != %v", res, v.want)
 			}
 		})
@@ -118,43 +118,9 @@ func TestMulVec(t *testing.T) {
 				}
 			} else if err != nil {
 				t.Errorf("%v", err)
-			} else if !equalVectors(res, v.want) {
+			} else if !res.Equals(v.want) {
 				t.Errorf("%v != %v", res, v.want)
 			}
 		})
 	}
-}
-
-func equalVectors(first, second Vector[int]) bool {
-	if first.Size() != second.Size() {
-		return false
-	}
-
-	for i := range first {
-		if first[i] != second[i] {
-			return false
-		}
-	}
-
-	return true
-}
-
-func equalMatrices(first, second Matrix[int]) bool {
-	if first.NoRows() != second.NoRows() {
-		return false
-	}
-
-	if first.NoColumns() != second.NoColumns() {
-		return false
-	}
-
-	for i := range first.NoRows() {
-		for j := range first.NoColumns() {
-			if first[i][j] != second[i][j] {
-				return false
-			}
-		}
-	}
-
-	return true
 }

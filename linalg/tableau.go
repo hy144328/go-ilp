@@ -84,3 +84,23 @@ func (tab Tableau[T]) DeflateRow(idx int) {
 func (tab Tableau[T]) SwapRows(srcIdx int, dstIdx int) {
 	tab[srcIdx], tab[dstIdx] = tab[dstIdx], tab[srcIdx]
 }
+
+// Equals reports whether a Tableau is equal to another Tableau.
+func (tab Tableau[T]) Equals(other Tableau[T]) bool {
+	if len(tab) != len(other) {
+		return false
+	}
+	if len(tab[0]) != len(other[0]) {
+		return false
+	}
+
+	for rowCt := range tab {
+		for colCt := range tab[0] {
+			if tab[rowCt][colCt] != other[rowCt][colCt] {
+				return false
+			}
+		}
+	}
+
+	return true
+}

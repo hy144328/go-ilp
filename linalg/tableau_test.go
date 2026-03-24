@@ -18,7 +18,7 @@ func TestScaleRow(t *testing.T) {
 		t.Run(k, func(t *testing.T) {
 			v.tab.ScaleRow(v.idx, v.fac)
 
-			if !equalTableaus(v.tab, v.want) {
+			if !v.tab.Equals(v.want) {
 				t.Errorf("%v != %v", v.tab, v.want)
 			}
 		})
@@ -40,7 +40,7 @@ func TestEliminateRow(t *testing.T) {
 		t.Run(k, func(t *testing.T) {
 			v.tab.EliminateRow(v.srcIdx, v.dstIdx, v.colIdx)
 
-			if !equalTableaus(v.tab, v.want) {
+			if !v.tab.Equals(v.want) {
 				t.Errorf("%v != %v", v.tab, v.want)
 			}
 		})
@@ -60,7 +60,7 @@ func TestDeflateRow(t *testing.T) {
 		t.Run(k, func(t *testing.T) {
 			v.tab.DeflateRow(v.idx)
 
-			if !equalTableaus(v.tab, v.want) {
+			if !v.tab.Equals(v.want) {
 				t.Errorf("%v != %v", v.tab, v.want)
 			}
 		})
@@ -81,31 +81,9 @@ func TestSwapRows(t *testing.T) {
 		t.Run(k, func(t *testing.T) {
 			v.tab.SwapRows(v.srcIdx, v.dstIdx)
 
-			if !equalTableaus(v.tab, v.want) {
+			if !v.tab.Equals(v.want) {
 				t.Errorf("%v != %v", v.tab, v.want)
 			}
 		})
 	}
-}
-
-func equalTableaus(
-	tab Tableau[int],
-	other Tableau[int],
-) bool {
-	if len(tab) != len(other) {
-		return false
-	}
-	if len(tab[0]) != len(other[0]) {
-		return false
-	}
-
-	for rowCt := range tab {
-		for colCt := range tab[0] {
-			if tab[rowCt][colCt] != other[rowCt][colCt] {
-				return false
-			}
-		}
-	}
-
-	return true
 }
