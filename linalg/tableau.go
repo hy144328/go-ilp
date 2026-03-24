@@ -4,9 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"golang.org/x/exp/constraints"
-
 	"github.com/hy144328/go-ilp/numbers"
+	"golang.org/x/exp/constraints"
 )
 
 var (

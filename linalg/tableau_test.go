@@ -6,9 +6,9 @@ import (
 
 func TestScaleRow(t *testing.T) {
 	tests := map[string]struct {
-		tab Tableau[int]
-		idx int
-		fac int
+		tab  Tableau[int]
+		idx  int
+		fac  int
 		want Tableau[int]
 	}{
 		"base": {[][]int{{1, 2}, {3, 4}}, 0, 2, [][]int{{2, 4}, {3, 4}}},
@@ -27,11 +27,11 @@ func TestScaleRow(t *testing.T) {
 
 func TestEliminateRow(t *testing.T) {
 	tests := map[string]struct {
-		tab Tableau[int]
+		tab    Tableau[int]
 		srcIdx int
 		dstIdx int
 		colIdx int
-		want Tableau[int]
+		want   Tableau[int]
 	}{
 		"base": {[][]int{{1, 2}, {3, 4}}, 0, 1, 0, [][]int{{1, 2}, {0, -2}}},
 	}
@@ -49,8 +49,8 @@ func TestEliminateRow(t *testing.T) {
 
 func TestDeflateRow(t *testing.T) {
 	tests := map[string]struct {
-		tab Tableau[int]
-		idx int
+		tab  Tableau[int]
+		idx  int
 		want Tableau[int]
 	}{
 		"base": {[][]int{{2, 4}, {3, 4}}, 0, [][]int{{1, 2}, {3, 4}}},
@@ -69,10 +69,10 @@ func TestDeflateRow(t *testing.T) {
 
 func TestSwapRows(t *testing.T) {
 	tests := map[string]struct {
-		tab Tableau[int]
+		tab    Tableau[int]
 		srcIdx int
 		dstIdx int
-		want Tableau[int]
+		want   Tableau[int]
 	}{
 		"base": {[][]int{{1, 2}, {3, 4}}, 0, 1, [][]int{{3, 4}, {1, 2}}},
 	}
