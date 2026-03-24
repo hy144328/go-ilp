@@ -6,11 +6,11 @@ import (
 )
 
 func TestDot(t *testing.T) {
-	tests := map[string]struct{
-		first Vector[int]
+	tests := map[string]struct {
+		first  Vector[int]
 		second Vector[int]
-		want int
-		err error
+		want   int
+		err    error
 	}{
 		"compatible": {
 			[]int{1, 2, 3},
@@ -44,11 +44,11 @@ func TestDot(t *testing.T) {
 }
 
 func TestMul(t *testing.T) {
-	tests := map[string]struct{
-		first Matrix[int]
+	tests := map[string]struct {
+		first  Matrix[int]
 		second Matrix[int]
-		want Matrix[int]
-		err error
+		want   Matrix[int]
+		err    error
 	}{
 		"compatible": {
 			[][]int{{1, 2, 3}, {4, 5, 6}},
@@ -88,11 +88,11 @@ func TestMul(t *testing.T) {
 }
 
 func TestMulVec(t *testing.T) {
-	tests := map[string]struct{
-		mat Matrix[int]
-		vec Vector[int]
+	tests := map[string]struct {
+		mat  Matrix[int]
+		vec  Vector[int]
 		want Vector[int]
-		err error
+		err  error
 	}{
 		"compatible": {
 			[][]int{{1, 2, 3}, {4, 5, 6}},
