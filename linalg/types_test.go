@@ -81,7 +81,7 @@ func TestMul(t *testing.T) {
 			} else if err != nil {
 				t.Errorf("%v", err)
 			} else if !res.Equals(v.want) {
-				t.Errorf("%v != %v", res, v.want)
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, v.want)
 			}
 		})
 	}
@@ -119,7 +119,7 @@ func TestMulVec(t *testing.T) {
 			} else if err != nil {
 				t.Errorf("%v", err)
 			} else if !res.Equals(v.want) {
-				t.Errorf("%v != %v", res, v.want)
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, v.want)
 			}
 		})
 	}

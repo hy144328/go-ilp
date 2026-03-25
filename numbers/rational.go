@@ -23,7 +23,7 @@ type Ring[T constraints.Integer, U any] interface {
 	MulT(T) Rational[T]
 }
 
-type Ordered[T constraints.Integer, U any] interface {
+type Comparable[T constraints.Integer, U any] interface {
 	Equals(U) bool
 	EqualsT(T) bool
 	LessThan(U) bool
@@ -48,7 +48,7 @@ type Rational[T constraints.Integer] interface {
 
 	Embedding[T]
 	Ring[T, Rational[T]]
-	Ordered[T, Rational[T]]
+	Comparable[T, Rational[T]]
 	Archimedean[T, Rational[T]]
 	fmt.Stringer
 }

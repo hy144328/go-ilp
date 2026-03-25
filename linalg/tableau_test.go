@@ -19,7 +19,7 @@ func TestScaleRow(t *testing.T) {
 			v.tab.ScaleRow(v.idx, v.fac)
 
 			if !v.tab.Equals(v.want) {
-				t.Errorf("%v != %v", v.tab, v.want)
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
 			}
 		})
 	}
@@ -41,7 +41,7 @@ func TestEliminateRow(t *testing.T) {
 			v.tab.EliminateRow(v.srcIdx, v.dstIdx, v.colIdx)
 
 			if !v.tab.Equals(v.want) {
-				t.Errorf("%v != %v", v.tab, v.want)
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
 			}
 		})
 	}
@@ -61,7 +61,7 @@ func TestDeflateRow(t *testing.T) {
 			v.tab.DeflateRow(v.idx)
 
 			if !v.tab.Equals(v.want) {
-				t.Errorf("%v != %v", v.tab, v.want)
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
 			}
 		})
 	}
@@ -82,7 +82,7 @@ func TestSwapRows(t *testing.T) {
 			v.tab.SwapRows(v.srcIdx, v.dstIdx)
 
 			if !v.tab.Equals(v.want) {
-				t.Errorf("%v != %v", v.tab, v.want)
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
 			}
 		})
 	}
