@@ -11,6 +11,7 @@ import (
 )
 
 var (
+	ErrNotEquivalent = errors.New("not equivalent")
 	ErrZeroPivot = errors.New("zero pivot")
 )
 
@@ -38,12 +39,18 @@ func (tab Tableau[T]) NoColumns() int {
 }
 
 // ScaleRow multiplies a row by a constant factor.
-func (tab Tableau[T]) ScaleRow(idx int, fac T) {
+func (tab Tableau[T]) ScaleRow(idx int, fac T) error {
+	if fac == 0 {
+		return fmt.Errorf("%w: Factor must not be zero.", ErrNotEquivalent)
+	}
+
 	row := tab[idx]
 
 	for colCt := range row {
 		row[colCt] *= fac
 	}
+
+	return nil
 }
 
 // EliminateRow subtracts the multiple of one row from the multiple of another row such that the corresponding entry in the column vanishes.
