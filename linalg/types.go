@@ -3,6 +3,8 @@ package linalg
 import (
 	"errors"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"golang.org/x/exp/constraints"
 )
@@ -90,6 +92,17 @@ func (vec Vector[T]) Equals(other Vector[T]) bool {
 	return true
 }
 
+// String formats a Vector as a string.
+func (vec Vector[T]) String() string {
+	as := make([]string, vec.Size())
+
+	for vecCt, vecIt := range vec {
+		as[vecCt] = strconv.Itoa(int(vecIt))
+	}
+
+	return strings.Join(as, "\n")
+}
+
 // NoRows returns the number of rows of the Matrix.
 func (mat Matrix[T]) NoRows() int {
 	return len(mat)
@@ -170,4 +183,21 @@ func (mat Matrix[T]) Equals(other Matrix[T]) bool {
 	}
 
 	return true
+}
+
+// String formats a Matrix as a string.
+func (mat Matrix[T]) String() string {
+	as := make([]string, mat.NoRows())
+
+	for rowCt, rowIt := range mat {
+		asIt := make([]string, mat.NoColumns())
+
+		for colCt, colIt := range rowIt {
+			asIt[colCt] = strconv.Itoa(int(colIt))
+		}
+
+		as[rowCt] = strings.Join(asIt, "\t")
+	}
+
+	return strings.Join(as, "\n")
 }

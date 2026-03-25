@@ -2,6 +2,7 @@ package numbers
 
 import (
 	"errors"
+	"fmt"
 
 	"golang.org/x/exp/constraints"
 )
@@ -49,4 +50,5 @@ type Rational[T constraints.Integer] interface {
 	Ring[T, Rational[T]]
 	Ordered[T, Rational[T]]
 	Archimedean[T, Rational[T]]
+	fmt.Stringer
 }

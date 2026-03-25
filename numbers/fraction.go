@@ -205,3 +205,8 @@ func (x fraction[T]) ToInteger() (T, error) {
 
 	return x.num / x.denom, nil
 }
+
+// String formats a fraction as a string.
+func (x fraction[T]) String() string {
+	return fmt.Sprintf("%d/%d", x.num, x.denom)
+}

@@ -3,6 +3,8 @@ package linalg
 import (
 	"errors"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/hy144328/go-ilp/numbers"
 	"golang.org/x/exp/constraints"
@@ -103,4 +105,21 @@ func (tab Tableau[T]) Equals(other Tableau[T]) bool {
 	}
 
 	return true
+}
+
+// String formats a Tableau as a string.
+func (tab Tableau[T]) String() string {
+	as := make([]string, tab.NoRows())
+
+	for rowCt, rowIt := range tab {
+		asIt := make([]string, tab.NoColumns())
+
+		for colCt, colIt := range rowIt {
+			asIt[colCt] = strconv.Itoa(int(colIt))
+		}
+
+		as[rowCt] = strings.Join(asIt, "\t")
+	}
+
+	return strings.Join(as, "\n")
 }
