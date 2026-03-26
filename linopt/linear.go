@@ -21,7 +21,7 @@ func FromStandard[T constraints.Signed](form StandardForm[T]) LinearProgram[T] {
 	noVariables := form.NoVariables()
 	tab := linalg.NewTableau[T](noConstraints+1, noVariables+2)
 
-	tab[0][0] = 1
+	tab[0][0] = -1
 	copy(tab[0][1:], form.c)
 
 	for rowCt, rowIt := range form.a {
