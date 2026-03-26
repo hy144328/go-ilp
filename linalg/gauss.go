@@ -6,7 +6,7 @@ import (
 )
 
 // PivotColumn swaps rows such that the absolute value of the entry is larger or equal to any entry below.
-func PivotColumn[T constraints.Integer](
+func PivotColumn[T constraints.Signed](
 	tab Tableau[T],
 	rowIdx int,
 	colIdx int,
@@ -26,7 +26,7 @@ func PivotColumn[T constraints.Integer](
 
 // EliminateDown subtracts the given row from the rows below such that their values in the same column vanish.
 // The rows are deflated to prevent overflow.
-func EliminateDown[T constraints.Integer](
+func EliminateDown[T constraints.Signed](
 	tab Tableau[T],
 	rowIdx int,
 	colIdx int,
@@ -44,7 +44,7 @@ func EliminateDown[T constraints.Integer](
 
 // EliminateUp subtracts the given row from the rows above such that their values in the same column vanish.
 // The rows are deflated to prevent overflow.
-func EliminateUp[T constraints.Integer](
+func EliminateUp[T constraints.Signed](
 	tab Tableau[T],
 	rowIdx int,
 	colIdx int,

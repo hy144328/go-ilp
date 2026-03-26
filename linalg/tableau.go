@@ -15,10 +15,10 @@ var (
 	ErrZeroPivot = errors.New("zero pivot")
 )
 
-type Tableau[T constraints.Integer] [][]T
+type Tableau[T constraints.Signed] [][]T
 
 // NewTableau creates a Tableau with given numbers of rows and columns.
-func NewTableau[T constraints.Integer](noRows int, noColumns int) Tableau[T] {
+func NewTableau[T constraints.Signed](noRows int, noColumns int) Tableau[T] {
 	res := make([][]T, noRows)
 
 	for rowCt := range noRows {

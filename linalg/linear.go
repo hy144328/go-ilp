@@ -14,12 +14,12 @@ var (
 
 // A LinearSystemOfEquations is defined by a Matrix on the left-hand side and a Vector on the right-hand side.
 // They are combined in a single tableau.
-type LinearSystemOfEquations[T constraints.Integer] struct {
+type LinearSystemOfEquations[T constraints.Signed] struct {
 	tab Tableau[T]
 }
 
 // NewLinearSystemOfEquations constructs a LinearSystemOfEquations from a Matrix and a Vector.
-func NewLinearSystemOfEquations[T constraints.Integer](
+func NewLinearSystemOfEquations[T constraints.Signed](
 	A Matrix[T],
 	b Vector[T],
 ) (LinearSystemOfEquations[T], error) {

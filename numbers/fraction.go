@@ -187,8 +187,8 @@ func (x fraction[T]) Floor() T {
 
 // Floor return the lowest integer greater than or equal to the fraction.
 func (x fraction[T]) Ceil() T {
-	mod := Remainder(x.num-1, x.denom) + 1
-	return (x.num-mod)/x.denom + 1
+	mod := Remainder(x.num+(x.denom-1), x.denom) + 1
+	return (x.num+(x.denom-mod))/x.denom
 }
 
 // IsInteger reports whether the fraction is an integer.
