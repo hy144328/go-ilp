@@ -130,3 +130,11 @@ func (tab Tableau[T]) String() string {
 
 	return strings.Join(as, "\n")
 }
+
+func (tab Tableau[T]) Slice(rowLo, rowHi, colLo, colHi int) [][]T {
+	res := make([][]T, rowHi-rowLo)
+	for rowCt := range res {
+		res[rowCt] = tab[rowLo+rowCt][colLo:colHi]
+	}
+	return res
+}

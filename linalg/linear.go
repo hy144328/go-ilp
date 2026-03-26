@@ -53,26 +53,14 @@ func (lse LinearSystemOfEquations[T]) NoVariables() int {
 func (lse LinearSystemOfEquations[T]) leftHandSide() Matrix[T] {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()
-	res := make([][]T, noConstraints)
-
-	for rowCt, rowIt := range lse.tab {
-		res[rowCt] = rowIt[:noVariables]
-	}
-
-	return res
+	return lse.tab.Slice(0, noConstraints, 0, noVariables)
 }
 
 // rightHandSide reconstructs the Vector on the right-hand side.
 func (lse LinearSystemOfEquations[T]) rightHandSide() Matrix[T] {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()
-	res := make([][]T, noConstraints)
-
-	for rowCt, rowIt := range lse.tab {
-		res[rowCt] = rowIt[noVariables:]
-	}
-
-	return res
+	return lse.tab.Slice(0, noConstraints, noVariables, noVariables+1)
 }
 
 // Validate throws an error if the solution does not satisfy all constraints.

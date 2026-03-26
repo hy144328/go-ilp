@@ -41,3 +41,19 @@ func (problem LinearProgram[T]) NoConstraints() int {
 func (problem LinearProgram[T]) NoVariables() int {
 	return problem.tab.NoColumns() - 2
 }
+
+func (problem LinearProgram[T]) leftHandSide() linalg.Matrix[T] {
+	noConstraints := problem.NoConstraints()
+	noVariables := problem.NoVariables()
+	return problem.tab.Slice(1, 1+noConstraints, 1, 1+noVariables)
+}
+
+func (problem LinearProgram[T]) rightHandSide() linalg.Matrix[T] {
+	noConstraints := problem.NoConstraints()
+	noVariables := problem.NoVariables()
+	return problem.tab.Slice(1, 1+noConstraints, 1+noVariables, 2+noVariables)
+}
+
+func (problem LinearProgram[T]) weights() linalg.Matrix[T] {
+	return problem.tab.Slice(0, 1, 1, 1+problem.NoVariables())
+}
