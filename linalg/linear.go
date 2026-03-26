@@ -51,6 +51,14 @@ func (lse LinearSystemOfEquations[T]) NoVariables() int {
 	return lse.tab.NoColumns() - 1
 }
 
+// ToLinearForm converts a LinearSystemOfEquations to LinearForm.
+func (lse LinearSystemOfEquations[T]) ToLinearForm() LinearForm[T] {
+	return LinearForm[T]{
+		A: lse.leftHandSide(),
+		B: lse.rightHandSide().ToVector(0),
+	}
+}
+
 // leftHandSide reconstructs the Matrix on the left-hand side.
 func (lse LinearSystemOfEquations[T]) leftHandSide() Matrix[T] {
 	noConstraints := lse.NoConstraints()
@@ -67,17 +75,16 @@ func (lse LinearSystemOfEquations[T]) rightHandSide() Matrix[T] {
 
 // Validate throws an error if the solution does not satisfy all constraints.
 func (lse LinearSystemOfEquations[T]) Validate(sol Vector[T]) error {
-	lhs := lse.leftHandSide()
-	rhs := lse.rightHandSide()
+	form := lse.ToLinearForm()
 
-	res, err := lhs.MulVec(sol)
+	res, err := form.A.MulVec(sol)
 	if err != nil {
 		return err
 	}
 
 	for resCt := range res {
-		if res[resCt] != rhs[resCt][0] {
-			return fmt.Errorf("%w: %v dot %v != %d", ErrNotSolution, lhs[resCt], sol, rhs[resCt])
+		if res[resCt] != form.B[resCt] {
+			return fmt.Errorf("%w: %v dot %v != %d", ErrNotSolution, form.A[resCt], sol, form.B[resCt])
 		}
 	}
 

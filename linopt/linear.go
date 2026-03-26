@@ -57,6 +57,15 @@ func (problem LinearProgram[T]) NoVariables() int {
 	return problem.tab.NoColumns() - 2
 }
 
+// ToStandardForm converts a LinearProgram to StandardForm.
+func (problem LinearProgram[T]) ToStandardForm() StandardForm[T] {
+	return StandardForm[T]{
+		A: problem.leftHandSide(),
+		B: problem.rightHandSide().ToVector(0),
+		C: problem.weights()[0],
+	}
+}
+
 func (problem LinearProgram[T]) leftHandSide() linalg.Matrix[T] {
 	noConstraints := problem.NoConstraints()
 	noVariables := problem.NoVariables()

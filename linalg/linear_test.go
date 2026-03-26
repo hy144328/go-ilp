@@ -47,6 +47,43 @@ func TestFromLinearForm(t *testing.T) {
 	}
 }
 
+func TestToLinearForm(t *testing.T) {
+	tests := map[string]struct{
+		got LinearSystemOfEquations[int]
+		want LinearForm[int]
+	}{
+		"base": {
+			got: LinearSystemOfEquations[int]{
+				tab: Tableau[int]{
+					{1, 2, 5},
+					{3, 4, 6},
+				},
+			},
+			want: LinearForm[int]{
+				A: Matrix[int]{
+					{1, 2},
+					{3, 4},
+				},
+				B: Vector[int]{5, 6},
+			},
+		},
+	}
+
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			form := testIt.got.ToLinearForm()
+
+			if !form.A.Equals(testIt.want.A) {
+				t.Errorf("a != a.\n\ngot:\n%v\n\nwant:\n%v\n", form.A, testIt.want.A)
+			}
+
+			if !form.B.Equals(testIt.want.B) {
+				t.Errorf("b != b.\n\ngot:\n%v\n\nwant:\n%v\n", form.B, testIt.want.B)
+			}
+		})
+	}
+}
+
 func TestValidate(t *testing.T) {
 	tests := map[string]struct{
 		lse LinearSystemOfEquations[int]
