@@ -48,7 +48,7 @@ func TestEliminateDown(t *testing.T) {
 					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v.", err)
+				t.Error(err)
 			} else if !testIt.tab.Equals(testIt.want) {
 				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
 			}
@@ -78,7 +78,7 @@ func TestEliminateUp(t *testing.T) {
 					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v.", err)
+				t.Error(err)
 			} else if !testIt.tab.Equals(testIt.want) {
 				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
 			}

@@ -35,7 +35,7 @@ func TestDot(t *testing.T) {
 					t.Errorf("%v is not %v.", err, v.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v", err)
+				t.Error(err)
 			} else if res != v.want {
 				t.Errorf("%v != %v", res, v.want)
 			}
@@ -79,7 +79,7 @@ func TestMul(t *testing.T) {
 					t.Errorf("%v is not %v.", err, v.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v", err)
+				t.Error(err)
 			} else if !res.Equals(v.want) {
 				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, v.want)
 			}
@@ -117,7 +117,7 @@ func TestMulVec(t *testing.T) {
 					t.Errorf("%v is not %v.", err, v.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v", err)
+				t.Error(err)
 			} else if !res.Equals(v.want) {
 				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, v.want)
 			}

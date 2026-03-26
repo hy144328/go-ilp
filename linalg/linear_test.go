@@ -66,7 +66,7 @@ func TestValidate(t *testing.T) {
 					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v.", err)
+				t.Error(err)
 			}
 		})
 	}
@@ -93,7 +93,7 @@ func TestReduce(t *testing.T) {
 					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v.", err)
+				t.Error(err)
 			} else if !slices.Equal(pivots, testIt.pivots) {
 				t.Errorf("%v != %v.", pivots, testIt.pivots)
 			}
