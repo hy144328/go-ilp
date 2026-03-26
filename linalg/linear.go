@@ -19,24 +19,26 @@ type LinearSystemOfEquations[T constraints.Signed] struct {
 }
 
 // NewLinearSystemOfEquations constructs a LinearSystemOfEquations from a Matrix and a Vector.
-func NewLinearSystemOfEquations[T constraints.Signed](
-	A Matrix[T],
-	b Vector[T],
+func FromLinearForm[T constraints.Signed](
+	form LinearForm[T],
 ) (LinearSystemOfEquations[T], error) {
-	if A.NoRows() != b.Size() {
-		return *new(LinearSystemOfEquations[T]), fmt.Errorf("%w: %d != %d.", ErrIncompatibleSizes, A.NoRows(), b.Size())
+	noConstraints := form.A.NoRows()
+	noVariables := form.A.NoColumns()
+	res := LinearSystemOfEquations[T]{}
+
+	if size := form.B.Size(); size != noConstraints {
+		return res, fmt.Errorf("%w: %d != %d.", ErrIncompatibleSizes, size, noConstraints)
 	}
 
-	noConstraints := A.NoRows()
-	noVariables := A.NoColumns()
 	tab := NewTableau[T](noConstraints, noVariables+1)
+	res.tab = tab
 
-	for rowCt, rowIt := range A {
+	for rowCt, rowIt := range form.A {
 		copy(tab[rowCt], rowIt)
-		tab[rowCt][noVariables] = b[rowCt]
+		tab[rowCt][noVariables] = form.B[rowCt]
 	}
 
-	return LinearSystemOfEquations[T]{tab}, nil
+	return res, nil
 }
 
 // NoConstraints returns the number of constraints.

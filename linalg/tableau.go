@@ -15,6 +15,7 @@ var (
 	ErrZeroPivot = errors.New("zero pivot")
 )
 
+// A Tableau collects the coefficients of a linear system of equations.
 type Tableau[T constraints.Signed] [][]T
 
 // NewTableau creates a Tableau with given numbers of rows and columns.
@@ -131,6 +132,7 @@ func (tab Tableau[T]) String() string {
 	return strings.Join(as, "\n")
 }
 
+// Slice extracts a two-dimensional tensor from a Tableau.
 func (tab Tableau[T]) Slice(rowLo, rowHi, colLo, colHi int) [][]T {
 	res := make([][]T, rowHi-rowLo)
 	for rowCt := range res {

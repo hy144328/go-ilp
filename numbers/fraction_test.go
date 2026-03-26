@@ -258,7 +258,7 @@ func TestToInteger(t *testing.T) {
 					t.Errorf("%v is not %v.", err, v.err)
 				}
 			} else if err != nil {
-				t.Errorf("%v.", err.Error())
+				t.Error(err)
 			} else if res != v.want {
 				t.Errorf("%v != %d", v.got, v.want)
 			}

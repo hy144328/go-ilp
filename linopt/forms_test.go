@@ -13,20 +13,20 @@ func TestToStandard(t *testing.T) {
 	}{
 		"base": {
 			got: CanonicalForm[int]{
-				a: linalg.Matrix[int]{
+				A: linalg.Matrix[int]{
 					{1, 2},
 					{3, 4},
 				},
-				b: linalg.Vector[int]{5, 6},
-				c: linalg.Vector[int]{1, 1},
+				B: linalg.Vector[int]{5, 6},
+				C: linalg.Vector[int]{1, 1},
 			},
 			want: StandardForm[int]{
-				a: linalg.Matrix[int]{
+				A: linalg.Matrix[int]{
 					{1, 2, 1, 0},
 					{3, 4, 0, 1},
 				},
-				b: linalg.Vector[int]{5, 6},
-				c: linalg.Vector[int]{1, 1, 0, 0},
+				B: linalg.Vector[int]{5, 6},
+				C: linalg.Vector[int]{1, 1, 0, 0},
 			},
 		},
 	}
@@ -35,16 +35,16 @@ func TestToStandard(t *testing.T) {
 		t.Run(testId, func(t *testing.T) {
 			form := testIt.got.ToStandard()
 
-			if !form.a.Equals(testIt.want.a) {
-				t.Errorf("a != a.\n\ngot:\n%v\n\nwant:\n%v\n", form.a, testIt.want.a)
+			if !form.A.Equals(testIt.want.A) {
+				t.Errorf("a != a.\n\ngot:\n%v\n\nwant:\n%v\n", form.A, testIt.want.A)
 			}
 
-			if !form.b.Equals(testIt.want.b) {
-				t.Errorf("b != b.\n\ngot:\n%v\n\nwant:\n%v\n", form.b, testIt.want.b)
+			if !form.B.Equals(testIt.want.B) {
+				t.Errorf("b != b.\n\ngot:\n%v\n\nwant:\n%v\n", form.B, testIt.want.B)
 			}
 
-			if !form.c.Equals(testIt.want.c) {
-				t.Errorf("c != c.\n\ngot:\n%v\n\nwant:\n%v\n", form.c, testIt.want.c)
+			if !form.C.Equals(testIt.want.C) {
+				t.Errorf("c != c.\n\ngot:\n%v\n\nwant:\n%v\n", form.C, testIt.want.C)
 			}
 		})
 	}
