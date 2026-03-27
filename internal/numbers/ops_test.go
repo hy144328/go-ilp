@@ -14,11 +14,11 @@ func TestAbs(t *testing.T) {
 		"negative": {-1, 1},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res := Abs(v.got)
-			if res != v.want {
-				t.Errorf("Abs(%d) = %d != %d", v.got, v.want, res)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res := Abs(testIt.got)
+			if res != testIt.want {
+				t.Errorf("Abs(%d) = %d != %d", testIt.got, testIt.want, res)
 			}
 		})
 	}
@@ -35,11 +35,11 @@ func TestRemainder(t *testing.T) {
 		"negative, negative": {-5, -3, 1},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res := Remainder(v.dividend, v.divisor)
-			if res != v.want {
-				t.Errorf("Remainder(%d, %d) = %d != %d", v.dividend, v.divisor, v.want, res)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res := Remainder(testIt.dividend, testIt.divisor)
+			if res != testIt.want {
+				t.Errorf("Remainder(%d, %d) = %d != %d", testIt.dividend, testIt.divisor, testIt.want, res)
 			}
 		})
 	}

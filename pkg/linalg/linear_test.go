@@ -96,8 +96,8 @@ func TestReduce(t *testing.T) {
 		"irreducible": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {2, 4, 6, 7}}}, []int{0}, ErrNoSolution},
 	}
 
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
 			pivots, err := testIt.lse.Reduce()
 
 			if testIt.err != nil {

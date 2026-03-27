@@ -107,8 +107,8 @@ func TestValidateCanonical(t *testing.T) {
 		},
 	}
 
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
 			err := testIt.form.Validate(testIt.sol)
 
 			if testIt.err != nil {
@@ -166,8 +166,8 @@ func TestValidateStandard(t *testing.T) {
 		},
 	}
 
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
 			err := testIt.form.Validate(testIt.sol)
 
 			if testIt.err != nil {

@@ -16,8 +16,8 @@ func TestPivotColumn(t *testing.T) {
 		"no swap": {Tableau[int]{{3, 4}, {1, 2}}, 0, 0, Tableau[int]{{3, 4}, {1, 2}}},
 	}
 
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
 			PivotColumn(testIt.tab, testIt.rowIdx, testIt.colIdx)
 			if !testIt.tab.Equals(testIt.want) {
 				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
@@ -39,8 +39,8 @@ func TestEliminateDown(t *testing.T) {
 		"no pivot": {Tableau[int]{{0, 2, 3}, {4, 5, 6}}, 0, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, ErrZeroPivot},
 	}
 
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
 			err := EliminateDown(testIt.tab, testIt.rowIdx, testIt.colIdx)
 
 			if testIt.err != nil {
@@ -69,8 +69,8 @@ func TestEliminateUp(t *testing.T) {
 		"no pivot": {Tableau[int]{{1, 2, 3}, {0, 5, 6}}, 1, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, ErrZeroPivot},
 	}
 
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
 			err := EliminateUp(testIt.tab, testIt.rowIdx, testIt.colIdx)
 
 			if testIt.err != nil {

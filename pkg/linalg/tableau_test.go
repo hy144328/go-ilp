@@ -14,12 +14,12 @@ func TestScaleRow(t *testing.T) {
 		"base": {[][]int{{1, 2}, {3, 4}}, 0, 2, [][]int{{2, 4}, {3, 4}}},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			v.tab.ScaleRow(v.idx, v.fac)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			testIt.tab.ScaleRow(testIt.idx, testIt.fac)
 
-			if !v.tab.Equals(v.want) {
-				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
+			if !testIt.tab.Equals(testIt.want) {
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
 			}
 		})
 	}
@@ -36,12 +36,12 @@ func TestEliminateRow(t *testing.T) {
 		"base": {[][]int{{1, 2}, {3, 4}}, 0, 1, 0, [][]int{{1, 2}, {0, -2}}},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			v.tab.EliminateRow(v.srcIdx, v.dstIdx, v.colIdx)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			testIt.tab.EliminateRow(testIt.srcIdx, testIt.dstIdx, testIt.colIdx)
 
-			if !v.tab.Equals(v.want) {
-				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
+			if !testIt.tab.Equals(testIt.want) {
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
 			}
 		})
 	}
@@ -56,12 +56,12 @@ func TestDeflateRow(t *testing.T) {
 		"base": {[][]int{{2, 4}, {3, 4}}, 0, [][]int{{1, 2}, {3, 4}}},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			v.tab.DeflateRow(v.idx)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			testIt.tab.DeflateRow(testIt.idx)
 
-			if !v.tab.Equals(v.want) {
-				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
+			if !testIt.tab.Equals(testIt.want) {
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
 			}
 		})
 	}
@@ -77,12 +77,12 @@ func TestSwapRows(t *testing.T) {
 		"base": {[][]int{{1, 2}, {3, 4}}, 0, 1, [][]int{{3, 4}, {1, 2}}},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			v.tab.SwapRows(v.srcIdx, v.dstIdx)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			testIt.tab.SwapRows(testIt.srcIdx, testIt.dstIdx)
 
-			if !v.tab.Equals(v.want) {
-				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", v.tab, v.want)
+			if !testIt.tab.Equals(testIt.want) {
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", testIt.tab, testIt.want)
 			}
 		})
 	}

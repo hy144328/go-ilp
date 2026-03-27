@@ -26,18 +26,18 @@ func TestDot(t *testing.T) {
 		},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res, err := v.first.Dot(v.second)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res, err := testIt.first.Dot(testIt.second)
 
-			if v.err != nil {
-				if !errors.Is(err, v.err) {
-					t.Errorf("%v is not %v.", err, v.err)
+			if testIt.err != nil {
+				if !errors.Is(err, testIt.err) {
+					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
 				t.Error(err)
-			} else if res != v.want {
-				t.Errorf("%v != %v", res, v.want)
+			} else if res != testIt.want {
+				t.Errorf("%v != %v", res, testIt.want)
 			}
 		})
 	}
@@ -70,18 +70,18 @@ func TestMul(t *testing.T) {
 		},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res, err := v.first.Mul(v.second)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res, err := testIt.first.Mul(testIt.second)
 
-			if v.err != nil {
-				if !errors.Is(err, v.err) {
-					t.Errorf("%v is not %v.", err, v.err)
+			if testIt.err != nil {
+				if !errors.Is(err, testIt.err) {
+					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
 				t.Error(err)
-			} else if !res.Equals(v.want) {
-				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, v.want)
+			} else if !res.Equals(testIt.want) {
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, testIt.want)
 			}
 		})
 	}
@@ -108,18 +108,18 @@ func TestMulVec(t *testing.T) {
 		},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res, err := v.mat.MulVec(v.vec)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res, err := testIt.mat.MulVec(testIt.vec)
 
-			if v.err != nil {
-				if !errors.Is(err, v.err) {
-					t.Errorf("%v is not %v.", err, v.err)
+			if testIt.err != nil {
+				if !errors.Is(err, testIt.err) {
+					t.Errorf("%v is not %v.", err, testIt.err)
 				}
 			} else if err != nil {
 				t.Error(err)
-			} else if !res.Equals(v.want) {
-				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, v.want)
+			} else if !res.Equals(testIt.want) {
+				t.Errorf("got != want\n\ngot:\n%v\n\nwant:\n%v\n", res, testIt.want)
 			}
 		})
 	}

@@ -21,11 +21,11 @@ func TestGreatestCommonDivisor(t *testing.T) {
 		"two zero":                   {[]int{0, 0}, 0},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res := GreatestCommonDivisor(v.got[0], v.got[1:]...)
-			if res != v.want {
-				t.Errorf("gcd(%v) = %d != %d", v.got, res, v.want)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res := GreatestCommonDivisor(testIt.got[0], testIt.got[1:]...)
+			if res != testIt.want {
+				t.Errorf("gcd(%v) = %d != %d", testIt.got, res, testIt.want)
 			}
 		})
 	}
@@ -48,11 +48,11 @@ func TestLeastCommonMultiple(t *testing.T) {
 		"two zero":                   {[]int{0, 0}, 0},
 	}
 
-	for k, v := range tests {
-		t.Run(k, func(t *testing.T) {
-			res := LeastCommonMultiple(v.got[0], v.got[1:]...)
-			if res != v.want {
-				t.Errorf("lcm(%v) = %d != %d", v.got, res, v.want)
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			res := LeastCommonMultiple(testIt.got[0], testIt.got[1:]...)
+			if res != testIt.want {
+				t.Errorf("lcm(%v) = %d != %d", testIt.got, res, testIt.want)
 			}
 		})
 	}
