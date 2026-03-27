@@ -9,7 +9,6 @@ import (
 
 var (
 	ErrNoSolution = errors.New("no solution")
-	ErrNotSolution = errors.New("not a solution")
 )
 
 // A LinearSystemOfEquations is defined by a Matrix on the left-hand side and a Vector on the right-hand side.
@@ -71,24 +70,6 @@ func (lse LinearSystemOfEquations[T]) rightHandSide() Matrix[T] {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()
 	return lse.tab.Slice(0, noConstraints, noVariables, noVariables+1)
-}
-
-// Validate throws an error if the solution does not satisfy all constraints.
-func (lse LinearSystemOfEquations[T]) Validate(sol Vector[T]) error {
-	form := lse.ToLinearForm()
-
-	res, err := form.A.MulVec(sol)
-	if err != nil {
-		return err
-	}
-
-	for resCt := range res {
-		if res[resCt] != form.B[resCt] {
-			return fmt.Errorf("%w: %v dot %v != %d", ErrNotSolution, form.A[resCt], sol, form.B[resCt])
-		}
-	}
-
-	return nil
 }
 
 // Reduce minimizes the number of independent constraints.

@@ -1,17 +1,10 @@
 package linopt
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/hy144328/go-ilp/linalg"
 	"golang.org/x/exp/constraints"
-)
-
-var (
-	ErrIncompatibleSizes = errors.New("incompatible sizes")
-	ErrNoSolution = errors.New("no solution")
-	ErrNotSolution = errors.New("not a solution")
 )
 
 // A LinearProgram represents a linear program in standard formulation.
@@ -26,11 +19,11 @@ func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram
 	res := LinearProgram[T]{}
 
 	if size := form.B.Size(); size != noConstraints {
-	        return res, fmt.Errorf("%w: %d != %d.", ErrIncompatibleSizes, size, noConstraints)
+	        return res, fmt.Errorf("%w: %d != %d.", linalg.ErrIncompatibleSizes, size, noConstraints)
 	}
 
 	if size := form.C.Size(); size != noVariables {
-	        return res, fmt.Errorf("%w: %d != %d.", ErrIncompatibleSizes, size, noVariables)
+	        return res, fmt.Errorf("%w: %d != %d.", linalg.ErrIncompatibleSizes, size, noVariables)
 	}
 
 	tab := linalg.NewTableau[T](noConstraints+1, noVariables+2)

@@ -84,31 +84,6 @@ func TestToLinearForm(t *testing.T) {
 	}
 }
 
-func TestValidate(t *testing.T) {
-	tests := map[string]struct{
-		lse LinearSystemOfEquations[int]
-		sol Vector[int]
-		err error
-	}{
-		"true": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 17}, {3, 4, 39}}}, Vector[int]{5, 6}, nil},
-		"false": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 17}, {3, 4, 39}}}, Vector[int]{1, 1}, ErrNotSolution},
-	}
-
-	for k, testIt := range tests {
-		t.Run(k, func(t *testing.T) {
-			err := testIt.lse.Validate(testIt.sol)
-
-			if testIt.err != nil {
-				if !errors.Is(err, testIt.err) {
-					t.Errorf("%v is not %v.", err, testIt.err)
-				}
-			} else if err != nil {
-				t.Error(err)
-			}
-		})
-	}
-}
-
 func TestReduce(t *testing.T) {
 	tests := map[string]struct{
 		lse LinearSystemOfEquations[int]
