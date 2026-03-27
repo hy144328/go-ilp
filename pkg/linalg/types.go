@@ -103,6 +103,13 @@ func (vec Vector[T]) String() string {
 	return strings.Join(as, "\n")
 }
 
+// Copy creates an independent copy of Vector.
+func (vec Vector[T]) Copy() Vector[T] {
+	res := NewVector[T](vec.Size())
+	copy(res, vec)
+	return res
+}
+
 // NoRows returns the number of rows of the Matrix.
 func (mat Matrix[T]) NoRows() int {
 	return len(mat)
@@ -200,4 +207,15 @@ func (mat Matrix[T]) String() string {
 	}
 
 	return strings.Join(as, "\n")
+}
+
+// Copy creates an independent copy of Matrix.
+func (mat Matrix[T]) Copy() Matrix[T] {
+	res := NewMatrix[T](mat.NoRows(), mat.NoColumns())
+
+	for rowCt, rowIt := range mat {
+		copy(res[rowCt], rowIt)
+	}
+
+	return res
 }

@@ -53,7 +53,7 @@ func (lse LinearSystemOfEquations[T]) NoVariables() int {
 // ToLinearForm converts a LinearSystemOfEquations to LinearForm.
 func (lse LinearSystemOfEquations[T]) ToLinearForm() LinearForm[T] {
 	return LinearForm[T]{
-		A: lse.leftHandSide(),
+		A: lse.leftHandSide().Copy(),
 		B: lse.rightHandSide().ToVector(0),
 	}
 }

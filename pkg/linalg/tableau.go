@@ -132,6 +132,17 @@ func (tab Tableau[T]) String() string {
 	return strings.Join(as, "\n")
 }
 
+// Copy creates an independent copy of Tableau.
+func (tab Tableau[T]) Copy() Tableau[T] {
+	res := NewTableau[T](tab.NoRows(), tab.NoColumns())
+
+	for rowCt, rowIt := range tab {
+		copy(res[rowCt], rowIt)
+	}
+
+	return res
+}
+
 // Slice extracts a two-dimensional tensor from a Tableau.
 func (tab Tableau[T]) Slice(rowLo, rowHi, colLo, colHi int) [][]T {
 	res := make([][]T, rowHi-rowLo)
