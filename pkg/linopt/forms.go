@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hy144328/go-ilp/linalg"
+	"github.com/hy144328/go-ilp/pkg/linalg"
 	"golang.org/x/exp/constraints"
 )
 

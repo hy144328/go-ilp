@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/hy144328/go-ilp/linalg"
+	"github.com/hy144328/go-ilp/pkg/linalg"
 )
 
 func TestFromStandardForm(t *testing.T) {

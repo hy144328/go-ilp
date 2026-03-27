@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hy144328/go-ilp/numbers"
+	"github.com/hy144328/go-ilp/internal/numbers"
 	"golang.org/x/exp/constraints"
 )
 

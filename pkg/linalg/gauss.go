@@ -1,7 +1,7 @@
 package linalg
 
 import (
-	"github.com/hy144328/go-ilp/numbers"
+	"github.com/hy144328/go-ilp/internal/numbers"
 	"golang.org/x/exp/constraints"
 )
 
