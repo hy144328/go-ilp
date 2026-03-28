@@ -21,7 +21,7 @@ func TestFromLinearForm(t *testing.T) {
 				B: Vector[int]{5, 6},
 			},
 			want: LinearSystemOfEquations[int]{
-				tab: Tableau[int]{
+				Tab: Tableau[int]{
 					{1, 2, 5},
 					{3, 4, 6},
 				},
@@ -40,8 +40,8 @@ func TestFromLinearForm(t *testing.T) {
 				}
 			} else if err != nil {
 				t.Error(err)
-			} else if !prob.tab.Equals(testIt.want.tab) {
-				t.Errorf("got != want.\n\ngot:\n%v\n\nwant:\n%v\n", prob, testIt.want.tab)
+			} else if !prob.Tab.Equals(testIt.want.Tab) {
+				t.Errorf("got != want.\n\ngot:\n%v\n\nwant:\n%v\n", prob.Tab, testIt.want.Tab)
 			}
 		})
 	}
@@ -54,7 +54,7 @@ func TestToLinearForm(t *testing.T) {
 	}{
 		"base": {
 			got: LinearSystemOfEquations[int]{
-				tab: Tableau[int]{
+				Tab: Tableau[int]{
 					{1, 2, 5},
 					{3, 4, 6},
 				},

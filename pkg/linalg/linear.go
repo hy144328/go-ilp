@@ -14,7 +14,7 @@ var (
 // A LinearSystemOfEquations is defined by a Matrix on the left-hand side and a Vector on the right-hand side.
 // They are combined in a single tableau.
 type LinearSystemOfEquations[T constraints.Signed] struct {
-	tab Tableau[T]
+	Tab Tableau[T]
 }
 
 // NewLinearSystemOfEquations constructs a LinearSystemOfEquations from a Matrix and a Vector.
@@ -30,7 +30,7 @@ func FromLinearForm[T constraints.Signed](
 	}
 
 	tab := NewTableau[T](noConstraints, noVariables+1)
-	res.tab = tab
+	res.Tab = tab
 
 	for rowCt, rowIt := range form.A {
 		copy(tab[rowCt], rowIt)
@@ -42,12 +42,12 @@ func FromLinearForm[T constraints.Signed](
 
 // NoConstraints returns the number of constraints.
 func (lse LinearSystemOfEquations[T]) NoConstraints() int {
-	return lse.tab.NoRows()
+	return lse.Tab.NoRows()
 }
 
 // NoVariables returns the number of variables.
 func (lse LinearSystemOfEquations[T]) NoVariables() int {
-	return lse.tab.NoColumns() - 1
+	return lse.Tab.NoColumns() - 1
 }
 
 // ToLinearForm converts a LinearSystemOfEquations to LinearForm.
@@ -62,14 +62,14 @@ func (lse LinearSystemOfEquations[T]) ToLinearForm() LinearForm[T] {
 func (lse LinearSystemOfEquations[T]) leftHandSide() Matrix[T] {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()
-	return lse.tab.Slice(0, noConstraints, 0, noVariables)
+	return lse.Tab.Slice(0, noConstraints, 0, noVariables)
 }
 
 // rightHandSide reconstructs the Vector on the right-hand side.
 func (lse LinearSystemOfEquations[T]) rightHandSide() Matrix[T] {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()
-	return lse.tab.Slice(0, noConstraints, noVariables, noVariables+1)
+	return lse.Tab.Slice(0, noConstraints, noVariables, noVariables+1)
 }
 
 // Reduce minimizes the number of independent constraints.
@@ -79,14 +79,14 @@ func (lse LinearSystemOfEquations[T]) Reduce() ([]int, error) {
 	pivots := make([]int, 0, noConstraints)
 
 	for rowCt, colCt := 0, 0; rowCt < noConstraints && colCt < noVariables; {
-		PivotColumn(lse.tab, rowCt, colCt)
-		if lse.tab[rowCt][colCt] == 0 {
+		PivotColumn(lse.Tab, rowCt, colCt)
+		if lse.Tab[rowCt][colCt] == 0 {
 			colCt++
 			continue
 		}
 
 		pivots = append(pivots, colCt)
-		if err := EliminateDown(lse.tab, rowCt, colCt); err != nil {
+		if err := EliminateDown(lse.Tab, rowCt, colCt); err != nil {
 			panic(err)
 		}
 
@@ -95,11 +95,11 @@ func (lse LinearSystemOfEquations[T]) Reduce() ([]int, error) {
 	}
 
 	for rowCt := len(pivots); rowCt < noConstraints; rowCt++ {
-		if lse.tab[rowCt][noVariables] != 0 {
-			return pivots, fmt.Errorf("%w: Inhomogeneous null row.\n\n%v\n", ErrNoSolution, lse.tab)
+		if lse.Tab[rowCt][noVariables] != 0 {
+			return pivots, fmt.Errorf("%w: Inhomogeneous null row.\n\n%v\n", ErrNoSolution, lse.Tab)
 		}
 	}
-	lse.tab = lse.tab[:len(pivots)]
+	lse.Tab = lse.Tab[:len(pivots)]
 
 	return pivots, nil
 }

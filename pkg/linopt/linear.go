@@ -9,7 +9,7 @@ import (
 
 // A LinearProgram represents a linear program in standard formulation.
 type LinearProgram[T constraints.Signed] struct {
-	tab linalg.Tableau[T]
+	Tab linalg.Tableau[T]
 }
 
 // FromCanonical converts from StandardForm to LinearProgram.
@@ -27,7 +27,7 @@ func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram
 	}
 
 	tab := linalg.NewTableau[T](noConstraints+1, noVariables+2)
-	res.tab = tab
+	res.Tab = tab
 
 	tab[0][0] = -1
 	copy(tab[0][1:], form.C)
@@ -45,36 +45,36 @@ func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram
 }
 
 // NoConstraints returns the number of constraints.
-func (problem LinearProgram[T]) NoConstraints() int {
-	return problem.tab.NoRows() - 1
+func (lp LinearProgram[T]) NoConstraints() int {
+	return lp.Tab.NoRows() - 1
 }
 
 // NoVariables returns the number of variables.
-func (problem LinearProgram[T]) NoVariables() int {
-	return problem.tab.NoColumns() - 2
+func (lp LinearProgram[T]) NoVariables() int {
+	return lp.Tab.NoColumns() - 2
 }
 
 // ToStandardForm converts a LinearProgram to StandardForm.
-func (problem LinearProgram[T]) ToStandardForm() StandardForm[T] {
+func (lp LinearProgram[T]) ToStandardForm() StandardForm[T] {
 	return StandardForm[T]{
-		A: problem.leftHandSide().Copy(),
-		B: linalg.FromColumn(problem.rightHandSide(), 0),
-		C: linalg.FromRow(problem.weights(), 0),
+		A: lp.leftHandSide().Copy(),
+		B: linalg.FromColumn(lp.rightHandSide(), 0),
+		C: linalg.FromRow(lp.weights(), 0),
 	}
 }
 
-func (problem LinearProgram[T]) leftHandSide() linalg.Matrix[T] {
-	noConstraints := problem.NoConstraints()
-	noVariables := problem.NoVariables()
-	return problem.tab.Slice(1, 1+noConstraints, 1, 1+noVariables)
+func (lp LinearProgram[T]) leftHandSide() linalg.Matrix[T] {
+	noConstraints := lp.NoConstraints()
+	noVariables := lp.NoVariables()
+	return lp.Tab.Slice(1, 1+noConstraints, 1, 1+noVariables)
 }
 
-func (problem LinearProgram[T]) rightHandSide() linalg.Matrix[T] {
-	noConstraints := problem.NoConstraints()
-	noVariables := problem.NoVariables()
-	return problem.tab.Slice(1, 1+noConstraints, 1+noVariables, 2+noVariables)
+func (lp LinearProgram[T]) rightHandSide() linalg.Matrix[T] {
+	noConstraints := lp.NoConstraints()
+	noVariables := lp.NoVariables()
+	return lp.Tab.Slice(1, 1+noConstraints, 1+noVariables, 2+noVariables)
 }
 
-func (problem LinearProgram[T]) weights() linalg.Matrix[T] {
-	return problem.tab.Slice(0, 1, 1, 1+problem.NoVariables())
+func (lp LinearProgram[T]) weights() linalg.Matrix[T] {
+	return lp.Tab.Slice(0, 1, 1, 1+lp.NoVariables())
 }
