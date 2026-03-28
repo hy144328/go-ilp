@@ -145,6 +145,9 @@ func (tab Tableau[T]) Copy() Tableau[T] {
 
 // Slice extracts a two-dimensional tensor from a Tableau.
 func (tab Tableau[T]) Slice(rowLo, rowHi, colLo, colHi int) [][]T {
+	rowHi = numbers.Remainder(rowHi-1, tab.NoRows()) + 1
+	colHi = numbers.Remainder(colHi-1, tab.NoColumns()) + 1
+
 	res := make([][]T, rowHi-rowLo)
 	for rowCt := range res {
 		res[rowCt] = tab[rowLo+rowCt][colLo:colHi]
