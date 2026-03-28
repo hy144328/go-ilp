@@ -72,7 +72,7 @@ func (lse LinearSystemOfEquations[T]) rightHandSide() Matrix[T] {
 	return lse.Tab.Slice(0, noConstraints, noVariables, noVariables+1)
 }
 
-// Reduce minimizes the number of independent constraints.
+// Reduce minimizes the number of independent constraints in a LinearSystemOfEquations.
 func (lse LinearSystemOfEquations[T]) Reduce() ([]int, error) {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()

@@ -90,10 +90,46 @@ func TestReduce(t *testing.T) {
 		pivots []int
 		err    error
 	}{
-		"regular":     {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {5, 6, 7, 8}}}, []int{0, 1}, nil},
-		"skip":        {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {3, 6, 7, 8}}}, []int{0, 2}, nil},
-		"irregular":   {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {2, 4, 6, 8}}}, []int{0}, nil},
-		"irreducible": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {2, 4, 6, 7}}}, []int{0}, ErrNoSolution},
+		"regular": {
+			LinearSystemOfEquations[int]{
+				Tableau[int]{
+					{1, 2, 3, 4},
+					{5, 6, 7, 8},
+				},
+			},
+			[]int{0, 1},
+			nil,
+		},
+		"skip": {
+			LinearSystemOfEquations[int]{
+				Tableau[int]{
+					{1, 2, 3, 4},
+					{3, 6, 7, 8},
+				},
+			},
+			[]int{0, 2},
+			nil,
+		},
+		"irregular": {
+			LinearSystemOfEquations[int]{
+				Tableau[int]{
+					{1, 2, 3, 4},
+					{2, 4, 6, 8},
+				},
+			},
+			[]int{0},
+			nil,
+		},
+		"irreducible": {
+			LinearSystemOfEquations[int]{
+				Tableau[int]{
+					{1, 2, 3, 4},
+					{2, 4, 6, 7},
+				},
+			},
+			[]int{0},
+			ErrNoSolution,
+		},
 	}
 
 	for testId, testIt := range tests {

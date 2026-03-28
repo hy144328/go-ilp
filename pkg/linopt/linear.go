@@ -78,3 +78,10 @@ func (lp LinearProgram[T]) rightHandSide() linalg.Matrix[T] {
 func (lp LinearProgram[T]) weights() linalg.Matrix[T] {
 	return lp.Tab.Slice(0, 1, 1, 1+lp.NoVariables())
 }
+
+// Reduce minimizes the number of independent constraints in a LinearProgram.
+func (lp LinearProgram[T]) Reduce() ([]int, error) {
+	var lse linalg.LinearSystemOfEquations[T]
+	lse.Tab = lp.Tab.Slice(1, 0, 1, 0)
+	return lse.Reduce()
+}

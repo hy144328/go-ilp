@@ -2,6 +2,7 @@ package linopt
 
 import (
 	"errors"
+	"slices"
 	"testing"
 
 	"github.com/hy144328/go-ilp/pkg/linalg"
@@ -88,6 +89,75 @@ func TestToStandardForm(t *testing.T) {
 
 			if !form.C.Equals(testIt.want.C) {
 				t.Errorf("c != c.\n\ngot:\n%v\n\nwant:\n%v\n", form.C, testIt.want.C)
+			}
+		})
+	}
+}
+
+func TestReduce(t *testing.T) {
+	tests := map[string]struct{
+		lp LinearProgram[int]
+		pivots []int
+		err error
+	}{
+		"regular": {
+			LinearProgram[int]{
+				linalg.Tableau[int]{
+					{1, -1, -1, -1, -1},
+					{0, 1, 2, 3, 4},
+					{0, 5, 6, 7, 8},
+				},
+			},
+			[]int{0, 1},
+			nil,
+		},
+		"skip": {
+			LinearProgram[int]{
+				linalg.Tableau[int]{
+					{1, -1, -1, -1, -1},
+					{0, 1, 2, 3, 4},
+					{0, 3, 6, 7, 8},
+				},
+			},
+			[]int{0, 2},
+			nil,
+		},
+		"irregular": {
+			LinearProgram[int]{
+				linalg.Tableau[int]{
+					{1, -1, -1, -1, -1},
+					{0, 1, 2, 3, 4},
+					{0, 2, 4, 6, 8},
+				},
+			},
+			[]int{0},
+			nil,
+		},
+		"irreducible": {
+			LinearProgram[int]{
+				linalg.Tableau[int]{
+					{1, -1, -1, -1, -1},
+					{0, 1, 2, 3, 4},
+					{0, 2, 4, 6, 7},
+				},
+			},
+			[]int{0},
+			linalg.ErrNoSolution,
+		},
+	}
+
+	for testId, testIt := range tests {
+		t.Run(testId, func(t *testing.T) {
+			pivots, err := testIt.lp.Reduce()
+
+			if testIt.err != nil {
+				if !errors.Is(err, testIt.err) {
+					t.Errorf("%v is not %v.", err, testIt.err)
+				}
+			} else if err != nil {
+				t.Error(err)
+			} else if !slices.Equal(pivots, testIt.pivots) {
+				t.Errorf("%v != %v.", pivots, testIt.pivots)
 			}
 		})
 	}
