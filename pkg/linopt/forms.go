@@ -42,8 +42,7 @@ func (form CanonicalForm[T]) ToStandard() StandardForm[T] {
 		a[rowCt][noColumns + rowCt] = 1
 	}
 
-	b := linalg.NewVector[T](form.B.Size())
-	copy(b, form.B)
+	b := form.B.Copy()
 
 	c := linalg.NewVector[T](form.C.Size() + noColumns)
 	copy(c, form.C)

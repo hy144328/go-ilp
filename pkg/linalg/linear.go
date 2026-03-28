@@ -54,7 +54,7 @@ func (lse LinearSystemOfEquations[T]) NoVariables() int {
 func (lse LinearSystemOfEquations[T]) ToLinearForm() LinearForm[T] {
 	return LinearForm[T]{
 		A: lse.leftHandSide().Copy(),
-		B: lse.rightHandSide().ToVector(0),
+		B: FromColumn(lse.rightHandSide(), 0),
 	}
 }
 

@@ -53,9 +53,9 @@ func (problem LinearProgram[T]) NoVariables() int {
 // ToStandardForm converts a LinearProgram to StandardForm.
 func (problem LinearProgram[T]) ToStandardForm() StandardForm[T] {
 	return StandardForm[T]{
-		A: problem.leftHandSide(),
-		B: problem.rightHandSide().ToVector(0),
-		C: problem.weights()[0],
+		A: problem.leftHandSide().Copy(),
+		B: linalg.FromColumn(problem.rightHandSide(), 0),
+		C: linalg.FromRow(problem.weights(), 0),
 	}
 }
 

@@ -35,6 +35,24 @@ func NewMatrix[T constraints.Integer](noRows int, noColumns int) Matrix[T] {
 	return res
 }
 
+// FromRow copies a column of a Matrix to a Vector.
+func FromRow[T constraints.Integer](mat Matrix[T], idx int) Vector[T] {
+	res := NewVector[T](mat.NoColumns())
+	copy(res, mat[idx])
+	return res
+}
+
+// FromColumn copies a column of a Matrix to a Vector.
+func FromColumn[T constraints.Integer](mat Matrix[T], idx int) Vector[T] {
+	res := NewVector[T](mat.NoRows())
+
+	for rowCt, rowIt := range mat {
+		res[rowCt] = rowIt[idx]
+	}
+
+	return res
+}
+
 // Size returns the length of the Vector.
 func (vec Vector[T]) Size() int {
 	return len(vec)
@@ -120,17 +138,6 @@ func (mat Matrix[T]) NoColumns() int {
 	return len(mat[0])
 }
 
-// ToVector copies a column of a Matrix to a Vector.
-func (mat Matrix[T]) ToVector(idx int) Vector[T] {
-	res := NewVector[T](mat.NoRows())
-
-	for rowCt, rowIt := range mat {
-		res[rowCt] = rowIt[idx]
-	}
-
-	return res
-}
-
 // Mul multiplies a Matrix with another Matrix.
 func (mat Matrix[T]) Mul(other Matrix[T]) (Matrix[T], error) {
 	if mat.NoColumns() != other.NoRows() {
@@ -139,11 +146,11 @@ func (mat Matrix[T]) Mul(other Matrix[T]) (Matrix[T], error) {
 
 	res := NewMatrix[T](mat.NoRows(), other.NoColumns())
 
-	for rowCt, rowIt := range mat {
+	for rowCt := range mat.NoRows() {
 		for colCt := range other.NoColumns() {
-			resIt, err := other.ToVector(colCt).Dot(rowIt)
-			if err != nil {
-				panic(err)
+			var resIt T
+			for i := range other {
+				resIt += mat[rowCt][i] * other[i][colCt]
 			}
 			res[rowCt][colCt] = resIt
 		}
@@ -161,9 +168,9 @@ func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 	res := NewVector[T](mat.NoRows())
 
 	for rowCt, rowIt := range mat {
-		resIt, err := vec.Dot(rowIt)
-		if err != nil {
-			panic(err)
+		var resIt T
+		for i := range vec {
+			resIt += rowIt[i] * vec[i]
 		}
 		res[rowCt] = resIt
 	}
