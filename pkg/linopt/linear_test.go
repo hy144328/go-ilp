@@ -19,14 +19,14 @@ func TestFromStandardForm(t *testing.T) {
 					{1, 2},
 					{3, 4},
 				},
-				B: linalg.Vector[int]{5, 6},
+				B: linalg.Vector[int]{5, -6},
 				C: linalg.Vector[int]{1, 1},
 			},
 			want: LinearProgram[int]{
 				tab: linalg.Tableau[int]{
-					{-1, 1, 1, 0},
+					{1, -1, -1, 0},
 					{0, 1, 2, 5},
-					{0, 3, 4, 6},
+					{0, -3, -4, 6},
 				},
 			},
 			err: nil,
@@ -44,7 +44,7 @@ func TestFromStandardForm(t *testing.T) {
 			} else if err != nil {
 				t.Error(err)
 			} else if !prob.tab.Equals(testIt.want.tab) {
-				t.Errorf("got != want.\n\ngot:\n%v\n\nwant:\n%v\n", prob, testIt.want.tab)
+				t.Errorf("got != want.\n\ngot:\n%v\n\nwant:\n%v\n", prob.tab, testIt.want.tab)
 			}
 		})
 	}
