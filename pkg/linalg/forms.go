@@ -11,7 +11,7 @@ var (
 	ErrNotSolution = errors.New("not a solution")
 )
 
-// A LinearForm represents the matrix-vector formulation of a lineary system of equations.
+// A LinearForm represents the matrix-vector formulation of a linear system of equations.
 type LinearForm[T constraints.Integer] struct {
 	A Matrix[T]
 	B Vector[T]

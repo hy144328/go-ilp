@@ -8,8 +8,8 @@ import (
 )
 
 func TestToStandard(t *testing.T) {
-	tests := map[string]struct{
-		got CanonicalForm[int]
+	tests := map[string]struct {
+		got  CanonicalForm[int]
 		want StandardForm[int]
 	}{
 		"base": {
@@ -52,10 +52,10 @@ func TestToStandard(t *testing.T) {
 }
 
 func TestValidateCanonical(t *testing.T) {
-	tests := map[string]struct{
+	tests := map[string]struct {
 		form CanonicalForm[int]
-		sol linalg.Vector[int]
-		err error
+		sol  linalg.Vector[int]
+		err  error
 	}{
 		"exact solution": {
 			CanonicalForm[int]{
@@ -123,10 +123,10 @@ func TestValidateCanonical(t *testing.T) {
 }
 
 func TestValidateStandard(t *testing.T) {
-	tests := map[string]struct{
+	tests := map[string]struct {
 		form StandardForm[int]
-		sol linalg.Vector[int]
-		err error
+		sol  linalg.Vector[int]
+		err  error
 	}{
 		"solution": {
 			StandardForm[int]{

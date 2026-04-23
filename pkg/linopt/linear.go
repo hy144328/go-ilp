@@ -19,11 +19,11 @@ func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram
 	res := LinearProgram[T]{}
 
 	if size := form.B.Size(); size != noConstraints {
-	        return res, fmt.Errorf("%w: %d != %d.", linalg.ErrIncompatibleSizes, size, noConstraints)
+		return res, fmt.Errorf("%w: %d != %d.", linalg.ErrIncompatibleSizes, size, noConstraints)
 	}
 
 	if size := form.C.Size(); size != noVariables {
-	        return res, fmt.Errorf("%w: %d != %d.", linalg.ErrIncompatibleSizes, size, noVariables)
+		return res, fmt.Errorf("%w: %d != %d.", linalg.ErrIncompatibleSizes, size, noVariables)
 	}
 
 	tab := linalg.NewTableau[T](noConstraints+1, noVariables+2)

@@ -6,10 +6,10 @@ import (
 )
 
 func TestValidate(t *testing.T) {
-	tests := map[string]struct{
+	tests := map[string]struct {
 		form LinearForm[int]
-		sol Vector[int]
-		err error
+		sol  Vector[int]
+		err  error
 	}{
 		"solution": {
 			LinearForm[int]{

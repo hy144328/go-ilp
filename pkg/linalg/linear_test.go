@@ -7,10 +7,10 @@ import (
 )
 
 func TestFromLinearForm(t *testing.T) {
-	tests := map[string]struct{
-		got LinearForm[int]
+	tests := map[string]struct {
+		got  LinearForm[int]
 		want LinearSystemOfEquations[int]
-		err error
+		err  error
 	}{
 		"base": {
 			got: LinearForm[int]{
@@ -48,8 +48,8 @@ func TestFromLinearForm(t *testing.T) {
 }
 
 func TestToLinearForm(t *testing.T) {
-	tests := map[string]struct{
-		got LinearSystemOfEquations[int]
+	tests := map[string]struct {
+		got  LinearSystemOfEquations[int]
 		want LinearForm[int]
 	}{
 		"base": {
@@ -85,14 +85,14 @@ func TestToLinearForm(t *testing.T) {
 }
 
 func TestReduce(t *testing.T) {
-	tests := map[string]struct{
-		lse LinearSystemOfEquations[int]
+	tests := map[string]struct {
+		lse    LinearSystemOfEquations[int]
 		pivots []int
-		err error
+		err    error
 	}{
-		"regular": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {5, 6, 7, 8}}}, []int{0, 1}, nil},
-		"skip": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {3, 6, 7, 8}}}, []int{0, 2}, nil},
-		"irregular": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {2, 4, 6, 8}}}, []int{0}, nil},
+		"regular":     {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {5, 6, 7, 8}}}, []int{0, 1}, nil},
+		"skip":        {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {3, 6, 7, 8}}}, []int{0, 2}, nil},
+		"irregular":   {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {2, 4, 6, 8}}}, []int{0}, nil},
 		"irreducible": {LinearSystemOfEquations[int]{Tableau[int]{{1, 2, 3, 4}, {2, 4, 6, 7}}}, []int{0}, ErrNoSolution},
 	}
 

@@ -6,13 +6,13 @@ import (
 )
 
 func TestPivotColumn(t *testing.T) {
-	tests := map[string]struct{
-		tab Tableau[int]
+	tests := map[string]struct {
+		tab    Tableau[int]
 		rowIdx int
 		colIdx int
-		want Tableau[int]
+		want   Tableau[int]
 	}{
-		"swap": {Tableau[int]{{1, 2}, {3, 4}}, 0, 0, Tableau[int]{{3, 4}, {1, 2}}},
+		"swap":    {Tableau[int]{{1, 2}, {3, 4}}, 0, 0, Tableau[int]{{3, 4}, {1, 2}}},
 		"no swap": {Tableau[int]{{3, 4}, {1, 2}}, 0, 0, Tableau[int]{{3, 4}, {1, 2}}},
 	}
 
@@ -27,16 +27,16 @@ func TestPivotColumn(t *testing.T) {
 }
 
 func TestEliminateDown(t *testing.T) {
-	tests := map[string]struct{
-		tab Tableau[int]
+	tests := map[string]struct {
+		tab    Tableau[int]
 		rowIdx int
 		colIdx int
-		want Tableau[int]
-		err error
+		want   Tableau[int]
+		err    error
 	}{
-		"eliminate": {Tableau[int]{{1, 2, 3}, {4, 5, 6}}, 0, 0, Tableau[int]{{1, 2, 3}, {0, -1, -2}}, nil},
+		"eliminate":    {Tableau[int]{{1, 2, 3}, {4, 5, 6}}, 0, 0, Tableau[int]{{1, 2, 3}, {0, -1, -2}}, nil},
 		"no eliminate": {Tableau[int]{{1, 2, 3}, {0, 5, 6}}, 0, 0, Tableau[int]{{1, 2, 3}, {0, 5, 6}}, nil},
-		"no pivot": {Tableau[int]{{0, 2, 3}, {4, 5, 6}}, 0, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, ErrZeroPivot},
+		"no pivot":     {Tableau[int]{{0, 2, 3}, {4, 5, 6}}, 0, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, ErrZeroPivot},
 	}
 
 	for testId, testIt := range tests {
@@ -57,16 +57,16 @@ func TestEliminateDown(t *testing.T) {
 }
 
 func TestEliminateUp(t *testing.T) {
-	tests := map[string]struct{
-		tab Tableau[int]
+	tests := map[string]struct {
+		tab    Tableau[int]
 		rowIdx int
 		colIdx int
-		want Tableau[int]
-		err error
+		want   Tableau[int]
+		err    error
 	}{
-		"eliminate": {Tableau[int]{{1, 2, 3}, {4, 5, 6}}, 1, 0, Tableau[int]{{0, 1, 2}, {4, 5, 6}}, nil},
+		"eliminate":    {Tableau[int]{{1, 2, 3}, {4, 5, 6}}, 1, 0, Tableau[int]{{0, 1, 2}, {4, 5, 6}}, nil},
 		"no eliminate": {Tableau[int]{{0, 2, 3}, {4, 5, 6}}, 1, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, nil},
-		"no pivot": {Tableau[int]{{1, 2, 3}, {0, 5, 6}}, 1, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, ErrZeroPivot},
+		"no pivot":     {Tableau[int]{{1, 2, 3}, {0, 5, 6}}, 1, 0, Tableau[int]{{0, 2, 3}, {4, 5, 6}}, ErrZeroPivot},
 	}
 
 	for testId, testIt := range tests {

@@ -35,11 +35,11 @@ func (form CanonicalForm[T]) ToStandard() StandardForm[T] {
 
 	a := linalg.NewMatrix[T](
 		noRows,
-		noRows + noColumns,
+		noRows+noColumns,
 	)
 	for rowCt, rowIt := range form.A {
 		copy(a[rowCt], rowIt)
-		a[rowCt][noColumns + rowCt] = 1
+		a[rowCt][noColumns+rowCt] = 1
 	}
 
 	b := form.B.Copy()

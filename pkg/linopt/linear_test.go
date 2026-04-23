@@ -8,10 +8,10 @@ import (
 )
 
 func TestFromStandardForm(t *testing.T) {
-	tests := map[string]struct{
-		got StandardForm[int]
+	tests := map[string]struct {
+		got  StandardForm[int]
 		want LinearProgram[int]
-		err error
+		err  error
 	}{
 		"base": {
 			got: StandardForm[int]{
@@ -51,8 +51,8 @@ func TestFromStandardForm(t *testing.T) {
 }
 
 func TestToStandardForm(t *testing.T) {
-	tests := map[string]struct{
-		got LinearProgram[int]
+	tests := map[string]struct {
+		got  LinearProgram[int]
 		want StandardForm[int]
 	}{
 		"base": {

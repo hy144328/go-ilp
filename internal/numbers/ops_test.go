@@ -23,6 +23,7 @@ func TestAbs(t *testing.T) {
 		})
 	}
 }
+
 func TestRemainder(t *testing.T) {
 	tests := map[string]struct {
 		dividend int

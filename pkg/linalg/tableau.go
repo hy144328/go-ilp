@@ -12,7 +12,7 @@ import (
 
 var (
 	ErrNotEquivalent = errors.New("not equivalent")
-	ErrZeroPivot = errors.New("zero pivot")
+	ErrZeroPivot     = errors.New("zero pivot")
 )
 
 // A Tableau collects the coefficients of a linear system of equations.
