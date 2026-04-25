@@ -24,10 +24,15 @@ func (form LinearForm[T]) Validate(sol Vector[T]) error {
 		return err
 	}
 
-	for resCt := range res {
-		if res[resCt] != form.B[resCt] {
-			return fmt.Errorf("%w: %v dot %v != %d", ErrNotSolution, form.A[resCt], sol, form.B[resCt])
-		}
+	if !res.Equals(form.B) {
+		return fmt.Errorf(
+			"%w: A x = y = b\n\nA:\n%v\n\nx:\n%v\n\ny:\n%v\n\nb:\n%v\n",
+			ErrNotSolution,
+			form.A,
+			sol,
+			res,
+			form.B,
+		)
 	}
 
 	return nil

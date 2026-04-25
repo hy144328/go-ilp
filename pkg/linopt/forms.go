@@ -54,7 +54,7 @@ func (form CanonicalForm[T]) ToStandard() StandardForm[T] {
 func (form CanonicalForm[T]) Validate(sol linalg.Vector[T]) error {
 	for solCt, solIt := range sol {
 		if solIt < 0 {
-			return fmt.Errorf("%w: sol[%d] != %d", ErrNegativeSolution, solCt, solIt)
+			return fmt.Errorf("%w: sol[%d] = %d >= 0.", ErrNegativeSolution, solCt, solIt)
 		}
 	}
 
@@ -65,7 +65,14 @@ func (form CanonicalForm[T]) Validate(sol linalg.Vector[T]) error {
 
 	for resCt := range res {
 		if res[resCt] > form.B[resCt] {
-			return fmt.Errorf("%w: %v dot %v > %d", linalg.ErrNotSolution, form.A[resCt], sol, form.B[resCt])
+			return fmt.Errorf(
+				"%w: A x = y <= b\n\nA:\n%v\n\nx:\n%v\n\ny:\n%v\n\nb:\n%v\n",
+				linalg.ErrNotSolution,
+				form.A,
+				sol,
+				res,
+				form.B,
+			)
 		}
 	}
 
@@ -76,7 +83,7 @@ func (form CanonicalForm[T]) Validate(sol linalg.Vector[T]) error {
 func (form StandardForm[T]) Validate(sol linalg.Vector[T]) error {
 	for solCt, solIt := range sol {
 		if solIt < 0 {
-			return fmt.Errorf("%w: sol[%d] != %d", ErrNegativeSolution, solCt, solIt)
+			return fmt.Errorf("%w: sol[%d] = %d >= 0.", ErrNegativeSolution, solCt, solIt)
 		}
 	}
 
@@ -85,10 +92,15 @@ func (form StandardForm[T]) Validate(sol linalg.Vector[T]) error {
 		return err
 	}
 
-	for resCt := range res {
-		if res[resCt] != form.B[resCt] {
-			return fmt.Errorf("%w: %v dot %v != %d", linalg.ErrNotSolution, form.A[resCt], sol, form.B[resCt])
-		}
+	if !res.Equals(form.B) {
+		return fmt.Errorf(
+			"%w: A x = y = b\n\nA:\n%v\n\nx:\n%v\n\ny:\n%v\n\nb:\n%v\n",
+			linalg.ErrNotSolution,
+			form.A,
+			sol,
+			res,
+			form.B,
+		)
 	}
 
 	return nil
