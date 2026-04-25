@@ -95,6 +95,18 @@ func (tab Tableau[T]) SwapRows(srcIdx int, dstIdx int) {
 	tab[srcIdx], tab[dstIdx] = tab[dstIdx], tab[srcIdx]
 }
 
+// Slice extracts a two-dimensional tensor from a Tableau.
+func (tab Tableau[T]) Slice(rowLo, rowHi, colLo, colHi int) [][]T {
+	rowHi = numbers.Remainder(rowHi-1, tab.NoRows()) + 1
+	colHi = numbers.Remainder(colHi-1, tab.NoColumns()) + 1
+
+	res := make([][]T, rowHi-rowLo)
+	for rowCt := range res {
+		res[rowCt] = tab[rowLo+rowCt][colLo:colHi]
+	}
+	return res
+}
+
 // Equals reports whether a Tableau is equal to another Tableau.
 func (tab Tableau[T]) Equals(other Tableau[T]) bool {
 	if len(tab) != len(other) {
@@ -140,17 +152,5 @@ func (tab Tableau[T]) Copy() Tableau[T] {
 		copy(res[rowCt], rowIt)
 	}
 
-	return res
-}
-
-// Slice extracts a two-dimensional tensor from a Tableau.
-func (tab Tableau[T]) Slice(rowLo, rowHi, colLo, colHi int) [][]T {
-	rowHi = numbers.Remainder(rowHi-1, tab.NoRows()) + 1
-	colHi = numbers.Remainder(colHi-1, tab.NoColumns()) + 1
-
-	res := make([][]T, rowHi-rowLo)
-	for rowCt := range res {
-		res[rowCt] = tab[rowLo+rowCt][colLo:colHi]
-	}
 	return res
 }
