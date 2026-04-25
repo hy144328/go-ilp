@@ -95,10 +95,10 @@ func TestToStandardForm(t *testing.T) {
 }
 
 func TestReduce(t *testing.T) {
-	tests := map[string]struct{
-		lp LinearProgram[int]
+	tests := map[string]struct {
+		lp     LinearProgram[int]
 		pivots []int
-		err error
+		err    error
 	}{
 		"regular": {
 			LinearProgram[int]{
