@@ -79,9 +79,19 @@ func (lp LinearProgram[T]) weights() linalg.Matrix[T] {
 	return lp.Tab.Slice(0, 1, 1, 1+lp.NoVariables())
 }
 
-// Reduce minimizes the number of independent constraints in a LinearProgram.
+// Reduce minimizes the number of non-trivial constraints in a LinearProgram.
+// The underlying tableau is modified in place but no rows are dropped.
+// The first non-zero coefficient of each non-trivial constraint is returned.
 func (lp LinearProgram[T]) Reduce() ([]int, error) {
-	var lse linalg.LinearSystemOfEquations[T]
-	lse.Tab = lp.Tab.Slice(1, 0, 1, 0)
-	return lse.Reduce()
+	lse := linalg.LinearSystemOfEquations[T]{
+		Tab: lp.Tab,
+	}
+	pivots, err := lse.Reduce()
+
+	pivots = pivots[1:]
+	for pivotCt, pivotIt := range pivots {
+		pivots[pivotCt] = pivotIt - 1
+	}
+
+	return pivots, err
 }

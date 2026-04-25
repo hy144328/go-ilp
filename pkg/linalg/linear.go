@@ -72,7 +72,9 @@ func (lse LinearSystemOfEquations[T]) rightHandSide() Matrix[T] {
 	return lse.Tab.Slice(0, noConstraints, noVariables, noVariables+1)
 }
 
-// Reduce minimizes the number of independent constraints in a LinearSystemOfEquations.
+// Reduce minimizes the number of non-trivial constraints in a LinearSystemOfEquations.
+// The underlying tableau is modified in place but no rows are dropped.
+// The first non-zero coefficient of each non-trivial constraint is returned.
 func (lse LinearSystemOfEquations[T]) Reduce() ([]int, error) {
 	noConstraints := lse.NoConstraints()
 	noVariables := lse.NoVariables()
@@ -99,7 +101,6 @@ func (lse LinearSystemOfEquations[T]) Reduce() ([]int, error) {
 			return pivots, fmt.Errorf("%w: Inhomogeneous null row.\n\n%v\n", ErrNoSolution, lse.Tab)
 		}
 	}
-	lse.Tab = lse.Tab[:len(pivots)]
 
 	return pivots, nil
 }

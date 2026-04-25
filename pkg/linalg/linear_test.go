@@ -144,6 +144,14 @@ func TestReduce(t *testing.T) {
 				t.Error(err)
 			} else if !slices.Equal(pivots, testIt.pivots) {
 				t.Errorf("%v != %v.", pivots, testIt.pivots)
+			} else {
+				for i := len(pivots); i < testIt.lse.Tab.NoRows(); i++ {
+					for j := range testIt.lse.Tab.NoColumns() {
+						if testIt.lse.Tab[i][j] != 0 {
+							t.Errorf("tab[%d][%d] != 0.", i, j)
+						}
+					}
+				}
 			}
 		})
 	}
