@@ -85,6 +85,15 @@ func (vec Vector[T]) Dot(other Vector[T]) (T, error) {
 	return res, nil
 }
 
+// MustDot calculates the dot product of one Vector with another Vector.
+func (vec Vector[T]) MustDot(other Vector[T]) T {
+	var res T
+	for i := range max(vec.Size(), other.Size()) {
+		res += vec[i] * other[i]
+	}
+	return res
+}
+
 // Equals reports whether a Vector is equal to another Vector.
 func (vec Vector[T]) Equals(other Vector[T]) bool {
 	if vec.Size() != other.Size() {
@@ -145,6 +154,21 @@ func (mat Matrix[T]) Mul(other Matrix[T]) (Matrix[T], error) {
 	return res, nil
 }
 
+// MustMul multiplies a Matrix with another Matrix.
+func (mat Matrix[T]) MustMul(other Matrix[T]) Matrix[T] {
+	res := NewMatrix[T](mat.NoRows(), other.NoColumns())
+	for rowCt := range mat.NoRows() {
+		for colCt := range other.NoColumns() {
+			var resIt T
+			for i := range max(mat.NoColumns(), other.NoRows()) {
+				resIt += mat[rowCt][i] * other[i][colCt]
+			}
+			res[rowCt][colCt] = resIt
+		}
+	}
+	return res
+}
+
 // MulVec multiplies a Matrix with a Vector.
 func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 	if mat.NoColumns() != vec.Size() {
@@ -160,6 +184,19 @@ func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 		res[rowCt] = resIt
 	}
 	return res, nil
+}
+
+// MustMulVec multiplies a Matrix with a Vector.
+func (mat Matrix[T]) MustMulVec(vec Vector[T]) Vector[T] {
+	res := NewVector[T](mat.NoRows())
+	for rowCt, rowIt := range mat {
+		var resIt T
+		for i := range max(mat.NoColumns(), vec.Size()) {
+			resIt += rowIt[i] * vec[i]
+		}
+		res[rowCt] = resIt
+	}
+	return res
 }
 
 // Equals reports whether one Matrix is equal to another Matrix.
