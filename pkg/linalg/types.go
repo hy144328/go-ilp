@@ -27,11 +27,9 @@ func NewVector[T constraints.Integer](size int) Vector[T] {
 // NewMatrix creates a Matrix with given numbers of rows and columns.
 func NewMatrix[T constraints.Integer](noRows int, noColumns int) Matrix[T] {
 	res := make([][]T, noRows)
-
 	for rowCt := range noRows {
 		res[rowCt] = make([]T, noColumns)
 	}
-
 	return res
 }
 
@@ -45,11 +43,9 @@ func FromRow[T constraints.Integer](mat Matrix[T], idx int) Vector[T] {
 // FromColumn copies a column of a Matrix to a Vector.
 func FromColumn[T constraints.Integer](mat Matrix[T], idx int) Vector[T] {
 	res := NewVector[T](mat.NoRows())
-
 	for rowCt, rowIt := range mat {
 		res[rowCt] = rowIt[idx]
 	}
-
 	return res
 }
 
@@ -61,22 +57,18 @@ func (vec Vector[T]) Size() int {
 // AsMatrix casts a Vector to a single-column Matrix.
 func (vec Vector[T]) AsMatrix() Matrix[T] {
 	res := make([][]T, vec.Size())
-
 	for vecCt, vecIt := range vec {
 		res[vecCt][0] = vecIt
 	}
-
 	return res
 }
 
 // ToMatrix copies a Vector to a single-column Matrix.
 func (vec Vector[T]) ToMatrix() Matrix[T] {
 	res := NewMatrix[T](vec.Size(), 1)
-
 	for vecCt := range vec {
 		res[vecCt] = vec[vecCt : vecCt+1]
 	}
-
 	return res
 }
 
@@ -87,11 +79,9 @@ func (vec Vector[T]) Dot(other Vector[T]) (T, error) {
 	}
 
 	var res T
-
 	for i := range vec {
 		res += vec[i] * other[i]
 	}
-
 	return res, nil
 }
 
@@ -113,11 +103,9 @@ func (vec Vector[T]) Equals(other Vector[T]) bool {
 // String formats a Vector as a string.
 func (vec Vector[T]) String() string {
 	as := make([]string, vec.Size())
-
 	for vecCt, vecIt := range vec {
 		as[vecCt] = strconv.Itoa(int(vecIt))
 	}
-
 	return strings.Join(as, "\n")
 }
 
@@ -145,7 +133,6 @@ func (mat Matrix[T]) Mul(other Matrix[T]) (Matrix[T], error) {
 	}
 
 	res := NewMatrix[T](mat.NoRows(), other.NoColumns())
-
 	for rowCt := range mat.NoRows() {
 		for colCt := range other.NoColumns() {
 			var resIt T
@@ -155,7 +142,6 @@ func (mat Matrix[T]) Mul(other Matrix[T]) (Matrix[T], error) {
 			res[rowCt][colCt] = resIt
 		}
 	}
-
 	return res, nil
 }
 
@@ -166,7 +152,6 @@ func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 	}
 
 	res := NewVector[T](mat.NoRows())
-
 	for rowCt, rowIt := range mat {
 		var resIt T
 		for i := range vec {
@@ -174,7 +159,6 @@ func (mat Matrix[T]) MulVec(vec Vector[T]) (Vector[T], error) {
 		}
 		res[rowCt] = resIt
 	}
-
 	return res, nil
 }
 
@@ -202,27 +186,21 @@ func (mat Matrix[T]) Equals(other Matrix[T]) bool {
 // String formats a Matrix as a string.
 func (mat Matrix[T]) String() string {
 	as := make([]string, mat.NoRows())
-
 	for rowCt, rowIt := range mat {
 		asIt := make([]string, mat.NoColumns())
-
 		for colCt, colIt := range rowIt {
 			asIt[colCt] = strconv.Itoa(int(colIt))
 		}
-
 		as[rowCt] = strings.Join(asIt, "\t")
 	}
-
 	return strings.Join(as, "\n")
 }
 
 // Copy creates an independent copy of Matrix.
 func (mat Matrix[T]) Copy() Matrix[T] {
 	res := NewMatrix[T](mat.NoRows(), mat.NoColumns())
-
 	for rowCt, rowIt := range mat {
 		copy(res[rowCt], rowIt)
 	}
-
 	return res
 }
