@@ -57,8 +57,8 @@ func (vec Vector[T]) Size() int {
 // AsMatrix casts a Vector to a single-column Matrix.
 func (vec Vector[T]) AsMatrix() Matrix[T] {
 	res := make([][]T, vec.Size())
-	for vecCt, vecIt := range vec {
-		res[vecCt][0] = vecIt
+	for vecCt := range vec {
+		res[vecCt] = vec[vecCt : vecCt+1]
 	}
 	return res
 }
@@ -66,8 +66,8 @@ func (vec Vector[T]) AsMatrix() Matrix[T] {
 // ToMatrix copies a Vector to a single-column Matrix.
 func (vec Vector[T]) ToMatrix() Matrix[T] {
 	res := NewMatrix[T](vec.Size(), 1)
-	for vecCt := range vec {
-		res[vecCt] = vec[vecCt : vecCt+1]
+	for vecCt, vecIt := range vec {
+		res[vecCt][0] = vecIt
 	}
 	return res
 }
