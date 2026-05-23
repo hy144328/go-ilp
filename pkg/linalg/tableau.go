@@ -21,11 +21,9 @@ type Tableau[T constraints.Signed] [][]T
 // NewTableau creates a Tableau with given numbers of rows and columns.
 func NewTableau[T constraints.Signed](noRows int, noColumns int) Tableau[T] {
 	res := make([][]T, noRows)
-
 	for rowCt := range noRows {
 		res[rowCt] = make([]T, noColumns)
 	}
-
 	return res
 }
 
@@ -46,11 +44,9 @@ func (tab Tableau[T]) ScaleRow(idx int, fac T) error {
 	}
 
 	row := tab[idx]
-
 	for colCt := range row {
 		row[colCt] *= fac
 	}
-
 	return nil
 }
 
@@ -112,6 +108,7 @@ func (tab Tableau[T]) Equals(other Tableau[T]) bool {
 	if len(tab) != len(other) {
 		return false
 	}
+
 	if len(tab[0]) != len(other[0]) {
 		return false
 	}
@@ -130,27 +127,21 @@ func (tab Tableau[T]) Equals(other Tableau[T]) bool {
 // String formats a Tableau as a string.
 func (tab Tableau[T]) String() string {
 	as := make([]string, tab.NoRows())
-
 	for rowCt, rowIt := range tab {
 		asIt := make([]string, tab.NoColumns())
-
 		for colCt, colIt := range rowIt {
 			asIt[colCt] = strconv.Itoa(int(colIt))
 		}
-
 		as[rowCt] = strings.Join(asIt, "\t")
 	}
-
 	return strings.Join(as, "\n")
 }
 
 // Copy creates an independent copy of Tableau.
 func (tab Tableau[T]) Copy() Tableau[T] {
 	res := NewTableau[T](tab.NoRows(), tab.NoColumns())
-
 	for rowCt, rowIt := range tab {
 		copy(res[rowCt], rowIt)
 	}
-
 	return res
 }
