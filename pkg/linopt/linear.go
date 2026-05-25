@@ -1,19 +1,28 @@
 package linopt
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/hy144328/go-ilp/pkg/linalg"
 	"golang.org/x/exp/constraints"
 )
 
+var (
+	ErrNotFeasible = errors.New("not feasible")
+)
+
 // A LinearProgram represents a linear program in standard formulation.
 type LinearProgram[T constraints.Signed] struct {
 	Tab linalg.Tableau[T]
+	Base []int
 }
 
-// FromCanonical converts from StandardForm to LinearProgram.
-func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram[T], error) {
+// FromStandardForm converts from StandardForm to LinearProgram.
+func FromStandardForm[T constraints.Signed](
+	form StandardForm[T],
+	base []int,
+) (LinearProgram[T], error) {
 	noConstraints := form.A.NoRows()
 	noVariables := form.A.NoColumns()
 	res := LinearProgram[T]{}
@@ -28,6 +37,7 @@ func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram
 
 	tab := linalg.NewTableau[T](noConstraints+1, noVariables+2)
 	res.Tab = tab
+	res.Base = base
 
 	tab[0][0] = -1
 	copy(tab[0][1:], form.C)
@@ -52,12 +62,12 @@ func (lp LinearProgram[T]) NoVariables() int {
 }
 
 // ToStandardForm converts a LinearProgram to StandardForm.
-func (lp LinearProgram[T]) ToStandardForm() StandardForm[T] {
+func (lp LinearProgram[T]) ToStandardForm() (StandardForm[T], []int) {
 	return StandardForm[T]{
 		A: lp.leftHandSide().Copy(),
 		B: linalg.FromColumn(lp.rightHandSide(), 0),
 		C: linalg.FromRow(lp.weights(), 0),
-	}
+	}, lp.Base
 }
 
 func (lp LinearProgram[T]) leftHandSide() linalg.Matrix[T] {
@@ -76,6 +86,7 @@ func (lp LinearProgram[T]) weights() linalg.Matrix[T] {
 	return lp.Tab.Slice(0, 1, 1, 1+lp.NoVariables())
 }
 
+/*
 // Reduce minimizes the number of non-trivial constraints in a LinearProgram.
 // The underlying tableau is modified in place but no rows are dropped.
 // The first non-zero coefficient of each non-trivial constraint is returned.
@@ -91,4 +102,44 @@ func (lp LinearProgram[T]) Reduce() ([]int, error) {
 	}
 
 	return pivots, err
+}
+*/
+
+// Reduce initializes the linear program from a basic feasible solution.
+// Returns error if basic solution turns out infeasible.
+func (lp LinearProgram[T]) Reduce() error {
+	bIdx := lp.NoVariables() + 1
+
+	for conCt, varCt := range lp.Base {
+		rowCt := conCt + 1
+		colCt := varCt + 1
+
+		linalg.PivotColumn(lp.Tab, rowCt, colCt)
+
+		if err := linalg.EliminateDown(lp.Tab, rowCt, colCt); err != nil {
+			return fmt.Errorf("%w: %w", ErrNotFeasible, err)
+		}
+	}
+
+	for conCt := len(lp.Base) - 1; conCt >= 0; conCt-- {
+		varCt := lp.Base[conCt]
+		rowCt := conCt + 1
+		colCt := varCt + 1
+
+		if err := linalg.EliminateUp(lp.Tab, rowCt, colCt); err != nil {
+			return fmt.Errorf("%w: %w", ErrNotFeasible, err)
+		}
+
+		if lp.Tab[rowCt][colCt] * lp.Tab[rowCt][bIdx] < 0 {
+			return fmt.Errorf("%w: Not positive.", ErrNotFeasible)
+		}
+
+		if lp.Tab[rowCt][bIdx] < 0 {
+			if err := lp.Tab.ScaleRow(rowCt, -1); err != nil {
+				panic(err)
+			}
+		}
+	}
+
+	return nil
 }

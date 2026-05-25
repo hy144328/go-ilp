@@ -2,23 +2,18 @@ package linopt
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/hy144328/go-ilp/pkg/linalg"
 	"golang.org/x/exp/constraints"
 )
 
 var (
-	ErrNotFeasible = errors.New("not feasible")
 	ErrUnboundedAbove = errors.New("unbounded above")
 )
 
 // RunSimplex runs the simplex algorithm given a basic feasible solution.
-func RunSimplex[T constraints.Signed](
-	lp LinearProgram[T],
-	pivots []int,
-) error {
-	if err := initializeSimplex(lp, pivots); err != nil {
+func RunSimplex[T constraints.Signed](lp LinearProgram[T]) error {
+	if err := lp.Reduce(); err != nil {
 		return err
 	}
 
@@ -41,44 +36,7 @@ func RunSimplex[T constraints.Signed](
 		if err := linalg.EliminateDown(lp.Tab, rowCt, colCt); err != nil {
 			panic(err)
 		}
-		pivots[conCt] = varCt
-	}
-
-	return nil
-}
-
-// initializeSimplex initializes the linear program given a basic feasible solution.
-// Returns error if pivots give infeasible solution.
-func initializeSimplex[T constraints.Signed](
-	lp LinearProgram[T],
-	pivots []int,
-) error {
-	bIdx := lp.NoVariables() + 1
-
-	for conCt, varCt := range pivots {
-		rowCt := conCt + 1
-		colCt := varCt + 1
-
-		linalg.PivotColumn(lp.Tab, rowCt, colCt)
-
-		if err := linalg.EliminateDown(lp.Tab, rowCt, colCt); err != nil {
-			return fmt.Errorf("%w: %w", ErrNotFeasible, err)
-		}
-	}
-
-	for conCt, varCt := range pivots {
-		rowCt := conCt + 1
-		colCt := varCt + 1
-
-		if err := linalg.EliminateUp(lp.Tab, rowCt, colCt); err != nil {
-			return fmt.Errorf("%w: %w", ErrNotFeasible, err)
-		}
-
-		if lp.Tab[rowCt][bIdx] < 0 {
-			if err := lp.Tab.ScaleRow(rowCt, -1); err != nil {
-				panic(err)
-			}
-		}
+		lp.Base[conCt] = varCt
 	}
 
 	return nil

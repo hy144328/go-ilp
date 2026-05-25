@@ -15,13 +15,12 @@ func TestRunSimplex(t *testing.T) {
 		B: linalg.Vector[int]{10, 15},
 		C: linalg.Vector[int]{2, 3, 4},
 	}
-	lp, err := FromStandardForm(form.ToStandard())
+	lp, err := FromStandardForm(form.ToStandard(), []int{3, 4})
 	if err != nil {
 		panic(err)
 	}
-	pivots := []int{3, 4}
 
-	if err := RunSimplex(lp, pivots); err != nil {
+	if err := RunSimplex(lp); err != nil {
 		panic(err)
 	}
 
