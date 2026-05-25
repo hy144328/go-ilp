@@ -27,7 +27,7 @@ func TestFromStandardForm(t *testing.T) {
 				Tab: linalg.Tableau[int]{
 					{1, -1, -1, 0},
 					{0, 1, 2, 5},
-					{0, -3, -4, 6},
+					{0, 3, 4, -6},
 				},
 			},
 			err: nil,

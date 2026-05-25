@@ -36,9 +36,6 @@ func FromStandardForm[T constraints.Signed](form StandardForm[T]) (LinearProgram
 	for rowCt, rowIt := range form.A {
 		copy(tab[1+rowCt][1:], rowIt)
 		tab[1+rowCt][1+noVariables] = form.B[rowCt]
-		if form.B[rowCt] < 0 {
-			tab.ScaleRow(1+rowCt, -1)
-		}
 	}
 
 	return res, nil
