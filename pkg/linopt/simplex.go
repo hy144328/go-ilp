@@ -13,10 +13,6 @@ var (
 
 // RunSimplex runs the simplex algorithm given a basic feasible solution.
 func RunSimplex[T constraints.Signed](lp LinearProgram[T]) error {
-	if err := lp.Reduce(); err != nil {
-		return err
-	}
-
 	for {
 		varCt, ok := chooseEntering(lp)
 		if !ok {

@@ -86,28 +86,9 @@ func (lp LinearProgram[T]) weights() linalg.Matrix[T] {
 	return lp.Tab.Slice(0, 1, 1, 1+lp.NoVariables())
 }
 
-/*
-// Reduce minimizes the number of non-trivial constraints in a LinearProgram.
-// The underlying tableau is modified in place but no rows are dropped.
-// The first non-zero coefficient of each non-trivial constraint is returned.
-func (lp LinearProgram[T]) Reduce() ([]int, error) {
-	lse := linalg.LinearSystemOfEquations[T]{
-		Tab: lp.Tab,
-	}
-	pivots, err := lse.Reduce()
-
-	pivots = pivots[1:]
-	for pivotCt, pivotIt := range pivots {
-		pivots[pivotCt] = pivotIt - 1
-	}
-
-	return pivots, err
-}
-*/
-
-// Reduce initializes the linear program from a basic feasible solution.
+// Conform transforms the tableau according to the basis of the initial feasible solution.
 // Returns error if basic solution turns out infeasible.
-func (lp LinearProgram[T]) Reduce() error {
+func (lp LinearProgram[T]) Conform() error {
 	bIdx := lp.NoVariables() + 1
 
 	for conCt, varCt := range lp.Base {
